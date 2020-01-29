@@ -1,0 +1,1244 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AivahThemes\n"
+"POT-Creation-Date: 2017-02-20 19:01+0530\n"
+"PO-Revision-Date: 2017-02-20 19:03+0530\n"
+"Last-Translator: info@aivahthemes.com <info@aivahthemes.com>\n"
+"Language-Team: AivahThemes <info@aivahthemes.com>\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.12\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: _e;__;_x;esc_html__\n"
+"X-Poedit-SearchPath-0: languages\n"
+"X-Poedit-SearchPath-1: .\n"
+
+#: iva-bh-plugin-update-file.php:108
+msgid ""
+"The ZipArchive php extension not exists, can't extract the update file. "
+"Please turn it on in php ini."
+msgstr ""
+"La extensión de php ZipArchive no existe, no se puede extraer el archivo de "
+"actualización. Por favor, encienda en el ini de php."
+
+#: iva-bh-plugin-update-file.php:111
+msgid "Update in progress..."
+msgstr "Actualización en progreso..."
+
+#: iva-bh-plugin-update-file.php:115
+msgid "Update file not found."
+msgstr "Actualización de archivo no encontrado."
+
+#: iva-bh-plugin-update-file.php:139
+msgid "You have not selected a file to upload, please select a file."
+msgstr ""
+"Usted no ha seleccionado un archivo para cargar, por favor, seleccione un "
+"archivo."
+
+#: iva-bh-plugin-update-file.php:145 iva-bhrs-import-export.php:76
+msgid "Uploaded file is not a zip file, Select zip file and upload."
+msgstr ""
+"Subida de archivos no es un archivo zip, seleccione Archivo zip y carga."
+
+#: iva-bh-plugin-update-file.php:150
+msgid "Cannot find the update files"
+msgstr "Si no encuentra los archivos de actualización"
+
+#: iva-bh-plugin-update-file.php:191
+msgid "The update folder is not extracted"
+msgstr "No se extrae la carpeta de actualización"
+
+#: iva-bh-plugin-update-file.php:194
+msgid "Extracted folders are more then 1. Please check the update file."
+msgstr ""
+"Carpetas extraídos son más de 1. Compruebe por favor el archivo de "
+"actualización."
+
+#: iva-bh-plugin-update-file.php:200 iva-bh-plugin-update-file.php:219
+msgid "Wrong update folder."
+msgstr "Carpeta de actualización errónea."
+
+#: iva-bh-plugin-update-file.php:205
+msgid ""
+"The update folder do not match the current plugin folder, please check the "
+"updated file."
+msgstr ""
+"La carpeta de actualización no coincide con la carpeta de plug-in actual, "
+"por favor revise el archivo actualizado."
+
+#: iva-bh-plugin-update-file.php:233
+msgid "Please update the plugin manually via the ftp"
+msgstr "Por favor actualiza el plugin manualmente por FTP"
+
+#: iva-bh-plugin-update-file.php:234
+msgid "Update Error:"
+msgstr "Error de actualización:"
+
+#: iva-bh-plugin-update-file.php:235 iva-bhrs-import-export.php:137
+msgid "Go Back"
+msgstr "Volver"
+
+#: iva-bhrs-import-export.php:62
+msgid ""
+"The ZipArchive php extension not exists, cannot extract the file. Please "
+"turn it on in php ini."
+msgstr ""
+"No existe la extensión php ZipArchive, no puede extraer el archivo. Por "
+"favor, vuelva a encenderlo en php ini."
+
+#: iva-bhrs-import-export.php:67
+#, fuzzy
+msgid "Import file not found."
+msgstr "Actualización de archivo no encontrado."
+
+#: iva-bhrs-import-export.php:85
+#, fuzzy
+msgid "Import in progress..."
+msgstr "Actualización en progreso..."
+
+#: iva-bhrs-import-export.php:89
+msgid "iva-bhp-export.txt does not exist!"
+msgstr "no existe iva-bhp-export.txt."
+
+#: iva-bhrs-import-export.php:104
+#, fuzzy
+msgid "Updated Hours Successfully"
+msgstr "Actualizado exitosamente"
+
+#: iva-bhrs-import-export.php:111
+msgid "Record Exists."
+msgstr "Registro existe."
+
+#: iva-bhrs-import-export.php:120
+#, fuzzy
+msgid "Created Hours Successfully."
+msgstr "Creado Correctamente"
+
+#: iva-bhrs-import-export.php:136
+#, fuzzy
+msgid "Import Error:"
+msgstr "Error de actualización:"
+
+#: iva-bhrs-import-export.php:151
+msgid "Images directory not found!<br>"
+msgstr "Imágenes de directorio no encontrado! <br>"
+
+#: iva-bhrs-widget-holidays.php:130
+#, fuzzy
+#| msgid "Holidays"
+msgid "Holidays Style:"
+msgstr "Vacaciones"
+
+#: iva-business-hours-pro-shortcode.php:33 iva-business-hours-pro-widget.php:58
+#: iva-business-hours-pro.php:775 iva_bhrs_vc_addon.php:108
+msgid "See more"
+msgstr "Ver mas"
+
+#: iva-business-hours-pro-shortcode.php:34 iva-business-hours-pro-widget.php:59
+#: iva_bhrs_vc_addon.php:109
+msgid "Today"
+msgstr "Hoy"
+
+#: iva-business-hours-pro-shortcode.php:72 iva-business-hours-pro-widget.php:98
+#: iva-business-hours-pro.php:2000 iva_bhrs_vc_addon.php:148
+msgid "Closed"
+msgstr "Cerrado"
+
+#: iva-business-hours-pro-shortcode.php:77
+#: iva-business-hours-pro-widget.php:103 iva_bhrs_vc_addon.php:153
+msgid "Open"
+msgstr "Abrir"
+
+#: iva-business-hours-pro-shortcode.php:174
+#: iva-business-hours-pro-widget.php:178 iva_bhrs_vc_addon.php:250
+msgid "H:i"
+msgstr "H:i"
+
+#: iva-business-hours-pro.php:240
+#, fuzzy
+msgid ""
+"The powerful WordPress Plugin suitable for any business globally to display "
+"multiple opening hours and holidays."
+msgstr ""
+"Los poderosos horario comercial pro WordPress Plugin adecuadas para "
+"cualquier tipo de negocio a nivel mundial."
+
+#: iva-business-hours-pro.php:273
+msgid "Add Holidays"
+msgstr "Agregar días"
+
+#: iva-business-hours-pro.php:292 iva-business-hours-pro.php:392
+#: iva-business-hours-pro.php:1011
+msgid "Name"
+msgstr "Nombre"
+
+#: iva-business-hours-pro.php:293
+msgid "Shortcode and Holiday Name"
+msgstr "Código corto y Nombre de vacaciones"
+
+#: iva-business-hours-pro.php:298 iva-business-hours-pro.php:405
+msgid "Start Date"
+msgstr "Fecha Inicial"
+
+#: iva-business-hours-pro.php:299 iva-business-hours-pro.php:406
+#, fuzzy
+msgid "Holiday Start Date"
+msgstr "Seleccionar fecha de inicio de vacaciones"
+
+#: iva-business-hours-pro.php:304 iva-business-hours-pro.php:411
+msgid "End Date"
+msgstr "Fecha Final"
+
+#: iva-business-hours-pro.php:305 iva-business-hours-pro.php:412
+#, fuzzy
+msgid "Holiday End Date"
+msgstr "Seleccionar Holiday Fecha de finalización"
+
+#: iva-business-hours-pro.php:310 iva-business-hours-pro.php:398
+#: iva-business-hours-pro.php:1312 iva-business-hours-pro.php:1467
+msgid "Description"
+msgstr "Descripción"
+
+#: iva-business-hours-pro.php:311
+#, fuzzy
+msgid "Short summary for your holiday (max: 100 characters)"
+msgstr "Escribe Descripción para vacaciones (máximo: 150 carácteres)"
+
+#: iva-business-hours-pro.php:316 iva-business-hours-pro.php:417
+msgid "Background Color"
+msgstr "Color de Fondo"
+
+#: iva-business-hours-pro.php:317 iva-business-hours-pro.php:418
+msgid "Holiday Background"
+msgstr "Antecedentes de vacaciones"
+
+#: iva-business-hours-pro.php:322 iva-business-hours-pro.php:423
+#, fuzzy
+msgid "Text Color"
+msgstr "Color del día"
+
+#: iva-business-hours-pro.php:323 iva-business-hours-pro.php:424
+msgid "Holiday Text Color"
+msgstr "Color del texto de vacaciones"
+
+#: iva-business-hours-pro.php:328 iva-business-hours-pro.php:430
+#, fuzzy
+msgid "Opening Hours"
+msgstr "Agrupación de horas:"
+
+#: iva-business-hours-pro.php:329 iva-business-hours-pro.php:431
+#, fuzzy
+msgid "Assign to Shortcode"
+msgstr "Horas Código corto"
+
+#: iva-business-hours-pro.php:356
+#, fuzzy
+msgid "Check this if you wish to hide this holiday."
+msgstr ""
+"Compruebe esto si usted desea ocultar este día de fiesta en el frontend."
+
+#: iva-business-hours-pro.php:393
+msgid "Name the Holiday(s)"
+msgstr "Nombre del Holiday (s)"
+
+#: iva-business-hours-pro.php:399
+#, fuzzy
+msgid "Short summary for tyour holiday (max: 100 characters)"
+msgstr "Escribe Descripción para vacaciones (máximo: 150 carácteres)"
+
+#: iva-business-hours-pro.php:436 iva_bhrs_vc_addon.php:40
+msgid "Select Hours"
+msgstr "Seleccione Horas"
+
+#: iva-business-hours-pro.php:453
+msgid "Check this if you wish to hide this holiday on frontend."
+msgstr ""
+"Compruebe esto si usted desea ocultar este día de fiesta en el frontend."
+
+#: iva-business-hours-pro.php:457 iva-business-hours-pro.php:1025
+msgid "Delete"
+msgstr "Borrar"
+
+#: iva-business-hours-pro.php:465
+msgid "Add New"
+msgstr "Añadir nuevo"
+
+#: iva-business-hours-pro.php:470
+#, fuzzy
+msgid "Save Holidays"
+msgstr "Vacaciones"
+
+#: iva-business-hours-pro.php:535
+#, fuzzy
+msgid "Holidays updated successfully."
+msgstr "Configuración actualizada correctamente"
+
+#: iva-business-hours-pro.php:670
+msgid "General Settings"
+msgstr "Configuración General"
+
+#: iva-business-hours-pro.php:683
+msgid "Week Start On"
+msgstr "Inicio de la Semana"
+
+#: iva-business-hours-pro.php:696
+msgid "Select your week starts on"
+msgstr "Seleccionar la semana empieza el"
+
+#: iva-business-hours-pro.php:701
+#, fuzzy
+msgid "Timezone:"
+msgstr "Zona horaria"
+
+#: iva-business-hours-pro.php:708
+msgid "Select the UTC Timezone where you are located."
+msgstr "Seleccione la zona horaria UTC en la que se encuentra."
+
+#: iva-business-hours-pro.php:713
+msgid "Time Format:"
+msgstr "Formato de hora"
+
+#: iva-business-hours-pro.php:726
+#, fuzzy
+msgid "Select the time format you wish to display."
+msgstr ""
+"Seleccione el formato de hora que desea mostrar para el Código corto Horas."
+
+#: iva-business-hours-pro.php:731
+msgid "Date Format:"
+msgstr "Formato de fecha:"
+
+#: iva-business-hours-pro.php:744
+#, fuzzy
+msgid " Select the date format you wish to display for the Holidays Shortcode."
+msgstr ""
+"Seleccione el formato de fecha que desea mostrar para el Código corto Horas."
+
+#: iva-business-hours-pro.php:749
+msgid "Languages"
+msgstr "Idiomas"
+
+#: iva-business-hours-pro.php:762
+msgid ""
+" Select the language for jquery calender inputs ( This applies only for the "
+"admin side )."
+msgstr ""
+"Seleccione el idioma para las entradas jQuery calandria (Esto se aplica sólo "
+"para la parte de administración)."
+
+#: iva-business-hours-pro.php:767
+msgid "Today text"
+msgstr "Texto Hoy"
+
+#: iva-business-hours-pro.php:770
+#, fuzzy
+msgid " 'Todays'text string translation which appears on frontend."
+msgstr "Traducción cadena de texto \"de hoy\", que aparece en el frontend."
+
+#: iva-business-hours-pro.php:778
+#, fuzzy
+msgid ""
+" 'See more' text string translation which appears on frontend when 'Toggle "
+"Display' is checked in."
+msgstr ""
+"\"Ver más\" traducción cadena de texto que aparece en la interfaz. (Horas "
+"Toggle Mode Negocios)"
+
+#: iva-business-hours-pro.php:783
+msgid "Weekdays Shortname"
+msgstr "Nombre corto días de la semana"
+
+#: iva-business-hours-pro.php:786
+#, fuzzy
+msgid "Check this if you wish to display weekdays shortname with 3 characters"
+msgstr ""
+"Marca esta casilla si deseas mostrar la descripción por encima del horario."
+
+#: iva-business-hours-pro.php:791
+#, fuzzy
+msgid "Late Night Hours"
+msgstr "Crear Horario"
+
+#: iva-business-hours-pro.php:794
+msgid ""
+"Check this if you wish to display late night hours. This will work display "
+"on or off display according to the time but the current day highlight will "
+"be different which is not according to standards."
+msgstr ""
+"Seleccione esta opción si desea visualizar horas de la noche. Esto "
+"funcionará pantalla o desactiva la visualización de acuerdo con el tiempo, "
+"pero lo más destacado del día actual será diferente que no está de acuerdo "
+"con las normas."
+
+#: iva-business-hours-pro.php:801
+msgid "Select Late Timing"
+msgstr "Seleccionar sincronización tardía"
+
+#: iva-business-hours-pro.php:814
+#, fuzzy
+msgid "Select the night hours."
+msgstr "Seleccione Horas"
+
+#: iva-business-hours-pro.php:819
+msgid "Multiple Days Off Text"
+msgstr "Múltiples Days Off texto"
+
+#: iva-business-hours-pro.php:822
+msgid ""
+"Text to display if you set multiple holidays - (e.g.We are on holidays from)"
+msgstr ""
+"Texto a mostrar si establece varios días de fiesta - (EGWE está de "
+"vacaciones desde)"
+
+#: iva-business-hours-pro.php:827
+msgid "Single Day Off Text"
+msgstr "Texto Un solo día libre"
+
+#: iva-business-hours-pro.php:830
+msgid ""
+"Text to display if you set single holiday - (e.g.We are off for the day on)"
+msgstr ""
+"Texto que se mostrará si se establece un solo día de fiesta - (EGWE son para "
+"el día en)"
+
+#: iva-business-hours-pro.php:835
+msgid "Custom CSS"
+msgstr "CSS personalizado"
+
+#: iva-business-hours-pro.php:838
+msgid ""
+"If you wish to add any custom css for the business hours shortcode, you can "
+"add it here in this block."
+msgstr ""
+"Si desea añadir cualquier css personalizado para el horario comercial "
+"abreviado, lo puedes añadir aquí en este bloque."
+
+#: iva-business-hours-pro.php:847
+msgid "Save All Changes"
+msgstr "Guardar todos los cambios"
+
+#: iva-business-hours-pro.php:955
+msgid "Settings updated successfully"
+msgstr "Configuración actualizada correctamente"
+
+#: iva-business-hours-pro.php:989
+msgid "Business Hours List"
+msgstr "Listado de Horarios"
+
+#: iva-business-hours-pro.php:995 iva-business-hours-pro.php:1093
+msgid ""
+"Please setup the time zone to make sure your business hours work according "
+"to your time zone. Set your proper UTC Time zone only in the Business Hours "
+"Settings Section. If you have late night working hours to enable select an "
+"hour till which your have working hours."
+msgstr ""
+"Por favor, configure la zona horaria para asegurarse de que sus horas de "
+"oficina de trabajo de acuerdo a su zona horaria. Establecer su adecuada zona "
+"de tiempo UTC sólo en los horarios de trabajo Configuración de la sección. "
+"Si usted tiene la noche las horas de trabajo para permitir seleccionar una "
+"hora hasta la que su tenga las horas de trabajo."
+
+#: iva-business-hours-pro.php:997
+msgid "Create Hours"
+msgstr "Crear Horario"
+
+#: iva-business-hours-pro.php:998
+#, fuzzy
+msgid "Import Hours"
+msgstr "horas de importación"
+
+#: iva-business-hours-pro.php:1010
+msgid "ID"
+msgstr "ID"
+
+#: iva-business-hours-pro.php:1012 iva-business-hours-pro.php:1466
+msgid "Shortcode"
+msgstr "Atajo"
+
+#: iva-business-hours-pro.php:1013
+msgid "Actions"
+msgstr "Acciones"
+
+#: iva-business-hours-pro.php:1024
+msgid "Edit"
+msgstr "Editar"
+
+#: iva-business-hours-pro.php:1026
+msgid "Import"
+msgstr "Importar"
+
+#: iva-business-hours-pro.php:1027
+msgid "Export"
+msgstr "Exportar"
+
+#: iva-business-hours-pro.php:1037
+#, fuzzy
+msgid "Import Business Hours"
+msgstr "Horas Actualización Negocios Pro"
+
+#: iva-business-hours-pro.php:1038
+msgid "Select a file to import"
+msgstr "Seleccione un archivo para importar"
+
+#: iva-business-hours-pro.php:1043
+msgid "import hours "
+msgstr "horas de importación"
+
+#: iva-business-hours-pro.php:1045 iva-business-hours-pro.php:1070
+msgid "Close me!"
+msgstr "Me Cierre!"
+
+#: iva-business-hours-pro.php:1055
+msgid "Manual Update Plugin"
+msgstr "Actualización manual"
+
+#: iva-business-hours-pro.php:1056
+msgid "All rights reserved"
+msgstr "Todos los derechos reservados"
+
+#: iva-business-hours-pro.php:1062
+msgid "Update Business Hours Pro"
+msgstr "Horas Actualización Negocios Pro"
+
+#: iva-business-hours-pro.php:1063
+msgid ""
+"Select a file provided within the package \"iva-business-hours-pro.zip\" If "
+"you update the plugin The files will be overwriten."
+msgstr ""
+"Seleccione un archivo proporcionado en el paquete \"iva-business-hours-pro."
+"zip\" Si actualiza el plug-in Los archivos se overwriten."
+
+#: iva-business-hours-pro.php:1064
+msgid "Choose the update file:"
+msgstr "Selecciona el archivo de actualización:"
+
+#: iva-business-hours-pro.php:1068
+msgid "Update Plugin"
+msgstr "Actualizar Plugin"
+
+#: iva-business-hours-pro.php:1088
+#, fuzzy
+msgid "Edit Business Hours"
+msgstr "Horas Actualización Negocios Pro"
+
+#: iva-business-hours-pro.php:1108 iva-business-hours-pro.php:1366
+#, fuzzy
+msgid ""
+"Additional text field will be displayed beside the time if the field "
+"contains any text."
+msgstr ""
+"Campo de texto adicional se mostrará al lado del tiempo si el campo contiene "
+"ningún texto."
+
+#: iva-business-hours-pro.php:1109 iva-business-hours-pro.php:1367
+#, fuzzy
+msgid ""
+"To create a closed day leave both the start time and end time hours blank "
+"include text fields."
+msgstr ""
+"Nota: Para crear un día \"Cerrado\" es suficiente con dejar en blanco la "
+"hora de inicio y la hora de fin."
+
+#: iva-business-hours-pro.php:1110 iva-business-hours-pro.php:1368
+msgid ""
+"To split the timings for a single day click on Plus Sign on right and add "
+"your timings."
+msgstr ""
+"Para dividir los tiempos para un solo día, haga clic en el Signo de más a la "
+"derecha y añadir sus horarios."
+
+#: iva-business-hours-pro.php:1152 iva-business-hours-pro.php:1372
+msgid "Weekday"
+msgstr "Día laborable"
+
+#: iva-business-hours-pro.php:1153 iva-business-hours-pro.php:1373
+msgid "Start Time"
+msgstr "Hora d'inici"
+
+#: iva-business-hours-pro.php:1154 iva-business-hours-pro.php:1374
+#, fuzzy
+msgid "Start Text"
+msgstr "comienzo de texto"
+
+#: iva-business-hours-pro.php:1155 iva-business-hours-pro.php:1375
+msgid "End Time"
+msgstr "Hora finalización"
+
+#: iva-business-hours-pro.php:1156 iva-business-hours-pro.php:1376
+#, fuzzy
+msgid "End Text"
+msgstr "Fin del texto"
+
+#: iva-business-hours-pro.php:1157
+#, fuzzy
+msgid "Split Hours"
+msgstr "Seleccione Horas"
+
+#: iva-business-hours-pro.php:1230 iva-business-hours-pro.php:1411
+#, fuzzy
+msgid "Opening Image"
+msgstr "Imagen de apertura:"
+
+#: iva-business-hours-pro.php:1246 iva-business-hours-pro.php:1415
+#, fuzzy
+msgid ""
+"Upload the image you wish to display as we're open on the hours display."
+msgstr ""
+"Sube la imagen que desea mostrar como we'are abierta en la pantalla horas."
+
+#: iva-business-hours-pro.php:1248 iva-business-hours-pro.php:1285
+#: iva-business-hours-pro.php:1417 iva-business-hours-pro.php:1440
+msgid "Upload Image"
+msgstr "Subir Imagen"
+
+#: iva-business-hours-pro.php:1256 iva-business-hours-pro.php:1424
+msgid "We are Open Title"
+msgstr "Estamos abiertos Título"
+
+#: iva-business-hours-pro.php:1257 iva-business-hours-pro.php:1294
+#: iva-business-hours-pro.php:1425 iva-business-hours-pro.php:1448
+msgid "Use Custom text if you don't want to use the image."
+msgstr "Utilizar el texto de encargo si no desea utilizar la imagen."
+
+#: iva-business-hours-pro.php:1267 iva-business-hours-pro.php:1434
+#, fuzzy
+msgid "Closing Image"
+msgstr "Imagen de cierre:"
+
+#: iva-business-hours-pro.php:1283
+msgid ""
+"Upload the image you wish to display as we'are closed once the shop timings "
+"are about closed"
+msgstr ""
+"Sube la imagen que desea mostrar como we'are cerrado una vez que los "
+"horarios de tiendas están cerradas sobre"
+
+#: iva-business-hours-pro.php:1293 iva-business-hours-pro.php:1447
+msgid "We are Close Title"
+msgstr "Estamos cerca de Título"
+
+#: iva-business-hours-pro.php:1303
+msgid "Edit Shortcode Settings"
+msgstr "Configuraci&oacute;n del shortcode"
+
+#: iva-business-hours-pro.php:1309 iva-business-hours-pro.php:1464
+#: iva_bhrs_holidays_vc_addon.php:41
+msgid "Title"
+msgstr "Título"
+
+#: iva-business-hours-pro.php:1309 iva-business-hours-pro.php:1464
+#, fuzzy
+msgid "Enter the title for shortcode."
+msgstr "Introduzca el título de código corto."
+
+#: iva-business-hours-pro.php:1310 iva-business-hours-pro.php:1465
+#, fuzzy
+msgid "Shortcode Alias"
+msgstr "Alias ​​Código corto:"
+
+#: iva-business-hours-pro.php:1310 iva-business-hours-pro.php:1465
+#, fuzzy
+msgid "Slug for the shortcode, Do not use special characters."
+msgstr "Slug y el código corto, no utilice caracteres especiales."
+
+#: iva-business-hours-pro.php:1311
+#, fuzzy
+msgid "Shortcode:"
+msgstr "Shortcode:"
+
+#: iva-business-hours-pro.php:1311 iva-business-hours-pro.php:1466
+msgid "Shortcode to use in your pages or posts."
+msgstr "Código corto para usar en sus páginas o mensajes."
+
+#: iva-business-hours-pro.php:1312 iva-business-hours-pro.php:1467
+#, fuzzy
+msgid "Additional info which displays before/before the hours in shortcode."
+msgstr "Otros detalles que muestra después / antes de las horas de oficina."
+
+#: iva-business-hours-pro.php:1313 iva-business-hours-pro.php:1468
+#, fuzzy
+msgid "Description Position"
+msgstr "Descripción poistion:"
+
+#: iva-business-hours-pro.php:1313 iva-business-hours-pro.php:1468
+msgid "Check this if you wish to display description above the hours."
+msgstr ""
+"Marca esta casilla si deseas mostrar la descripción por encima del horario."
+
+#: iva-business-hours-pro.php:1314 iva-business-hours-pro.php:1469
+msgid "Description Hide"
+msgstr "Descripción Ocultar"
+
+#: iva-business-hours-pro.php:1314 iva-business-hours-pro.php:1469
+#, fuzzy
+msgid "Check this if you wish to hide the description ( Additional Info)."
+msgstr ""
+"Compruebe esto si desea ocultar la descripción (información adicional)."
+
+#: iva-business-hours-pro.php:1315 iva-business-hours-pro.php:1470
+#, fuzzy
+msgid "Time Separator"
+msgstr "Separador de horas:"
+
+#: iva-business-hours-pro.php:1315
+#, fuzzy
+msgid ""
+"Time Separator ( e.g: 09:00 <strong class=\"red\"> - </strong> 06:00 ) add "
+"one space before/after your separator symbol."
+msgstr ""
+"Tiempo de separación (por ejemplo: <strong>9:00-6:00)</strong> añadir un "
+"espacio antes y después de su símbolo separador."
+
+#: iva-business-hours-pro.php:1318 iva-business-hours-pro.php:1474
+#: iva_bhrs_vc_addon.php:64
+msgid "Custom Width"
+msgstr "Ancho Personalizado"
+
+#: iva-business-hours-pro.php:1318 iva-business-hours-pro.php:1474
+#: iva_bhrs_vc_addon.php:67
+msgid "Enter the width in only numbers, no percentage or pixels."
+msgstr "Introduzca el ancho en sólo números, sin porcentaje o píxeles."
+
+#: iva-business-hours-pro.php:1319 iva-business-hours-pro.php:1471
+#, fuzzy
+msgid "Grouping Hours"
+msgstr "Agrupación de horas:"
+
+#: iva-business-hours-pro.php:1319 iva-business-hours-pro.php:1471
+#, fuzzy
+msgid "Check this if you wish to group hours display if the timings are same."
+msgstr ""
+"Compruebe esto si usted desea agrupar la pantalla horas si los tiempos son "
+"iguales."
+
+#: iva-business-hours-pro.php:1320
+msgid "Toggle Display"
+msgstr "Mostrar/Ocultar %"
+
+#: iva-business-hours-pro.php:1320 iva-business-hours-pro.php:1472
+msgid ""
+"Check this if you wish to hide all hours and display only current day and "
+"add toggle option to see remaining days."
+msgstr ""
+"Compruebe esto si usted desea ocultar todas horas y mostrar sólo día actual "
+"y añadir la opción de alternar para ver restantes días."
+
+#: iva-business-hours-pro.php:1323 iva-business-hours-pro.php:1479
+#, fuzzy
+msgid "Check this if you wish to highlight current day."
+msgstr "Marca esta casilla si deseas destacar el día actual en el horario."
+
+#: iva-business-hours-pro.php:1324 iva-business-hours-pro.php:1480
+#, fuzzy
+msgid "Choose the HEX Color to highlight the current day (e.g: #ff8800 )."
+msgstr "Seleccione el color de día para resaltar el día actual"
+
+#: iva-business-hours-pro.php:1325
+#, fuzzy
+msgid "Text if day is closed."
+msgstr "Texto de \"Cerrado\" para los días en los que se encuentra cerrado."
+
+#: iva-business-hours-pro.php:1326 iva-business-hours-pro.php:1482
+#, fuzzy
+msgid ""
+"Choose the HEX Color for the closed text background. Make sure you select "
+"dark colors as the text color is white by default."
+msgstr ""
+"Ingrese el código de color para el texto cerrado background.Make Seguro que "
+"seleccionar los colores oscuros en el color del texto es blanco de forma "
+"predeterminada."
+
+#: iva-business-hours-pro.php:1327 iva-business-hours-pro.php:1483
+msgid "Text if day is open."
+msgstr "Texto si el día está abierto."
+
+#: iva-business-hours-pro.php:1328 iva-business-hours-pro.php:1484
+#, fuzzy
+msgid ""
+"Choose the HEX color for the open text background. Make sure you select dark "
+"colors as the text color is white by default."
+msgstr ""
+"Ingrese el código de color para el texto cerrado background.Make Seguro que "
+"seleccionar los colores oscuros en el color del texto es blanco de forma "
+"predeterminada."
+
+#: iva-business-hours-pro.php:1329 iva-business-hours-pro.php:1485
+#, fuzzy
+msgid "Check this if you wish to hide close days."
+msgstr ""
+"Compruebe esto si usted desea ocultar este día de fiesta en el frontend."
+
+#: iva-business-hours-pro.php:1330 iva-business-hours-pro.php:1486
+#, fuzzy
+msgid "Check this if you wish to hide open/close text."
+msgstr "Compruebe esto si desea activar / desactivar título."
+
+#: iva-business-hours-pro.php:1331 iva-business-hours-pro.php:1487
+#, fuzzy
+msgid ""
+"Check this if you wish to display single day instead of showing all days."
+msgstr ""
+"Marca esta casilla si deseas mostrar la descripción por encima del horario."
+
+#: iva-business-hours-pro.php:1332 iva-business-hours-pro.php:1488
+#, fuzzy
+msgid "Check this if you wish to display hours aligned center"
+msgstr "Compruebe esto si desea activar / desactivar título."
+
+#: iva-business-hours-pro.php:1333 iva-business-hours-pro.php:1489
+#, fuzzy
+msgid "Check this if you wish to disable single day hours ( Today Hours )"
+msgstr "Marca esta casilla si deseas destacar el día actual en el horario."
+
+#: iva-business-hours-pro.php:1343
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: iva-business-hours-pro.php:1344
+msgid "Update"
+msgstr "Actualizar"
+
+#: iva-business-hours-pro.php:1354
+#, fuzzy
+msgid "Create Business Hours"
+msgstr "Horas Actualización Negocios Pro"
+
+#: iva-business-hours-pro.php:1377
+msgid "Add / Remove Period"
+msgstr "Añadir / Eliminar periodo"
+
+#: iva-business-hours-pro.php:1438
+#, fuzzy
+msgid ""
+"Upload the image you wish to display as we're closed once the shop timings "
+"are about closed"
+msgstr ""
+"Sube la imagen que desea mostrar como we'are cerrado una vez que los "
+"horarios de tiendas están cerradas sobre"
+
+#: iva-business-hours-pro.php:1458
+#, fuzzy
+msgid "Shortcode Settings"
+msgstr "Configuración de Shortcode"
+
+#: iva-business-hours-pro.php:1470
+#, fuzzy
+msgid ""
+"Time Separator ( e.g: 09:00 - 06:00 ) add one space before/after your "
+"separator symbol."
+msgstr ""
+"Tiempo de separación (por ejemplo: <strong>9:00-6:00)</strong> añadir un "
+"espacio antes y después de su símbolo separador."
+
+#: iva-business-hours-pro.php:1472
+#, fuzzy
+msgid "Toggle Hours"
+msgstr "Horas Toggle:"
+
+#: iva-business-hours-pro.php:1480
+msgid "Current Day Color"
+msgstr "Color de texto del Día actual"
+
+#: iva-business-hours-pro.php:1481
+#, fuzzy
+msgid "Closed Text"
+msgstr "Texto de \"Cerrado\":"
+
+#: iva-business-hours-pro.php:1481
+msgid "Closed text if specific day is closed."
+msgstr "Texto de \"Cerrado\" para los días en los que se encuentra cerrado."
+
+#: iva-business-hours-pro.php:1482
+#, fuzzy
+msgid "Closed Text Background"
+msgstr "Texto de \"Cerrado\":"
+
+#: iva-business-hours-pro.php:1483
+#, fuzzy
+msgid "Open Text"
+msgstr "Texto Hoy"
+
+#: iva-business-hours-pro.php:1484
+msgid "Open Text Background"
+msgstr "Fondo de texto"
+
+#: iva-business-hours-pro.php:1485
+#, fuzzy
+msgid "Closed Days"
+msgstr "Cerrado"
+
+#: iva-business-hours-pro.php:1486
+#, fuzzy
+msgid "Open/Close Text"
+msgstr "Texto de \"Cerrado\":"
+
+#: iva-business-hours-pro.php:1487
+msgid "Single Day"
+msgstr "Eventos por día"
+
+#: iva-business-hours-pro.php:1488
+msgid "Hours Alignment"
+msgstr "horas de alineación"
+
+#: iva-business-hours-pro.php:1489
+#, fuzzy
+msgid "Today Hours"
+msgstr "Hoy"
+
+#: iva-business-hours-pro.php:1498
+#, fuzzy
+msgid ""
+"Note: To create a closed day leave both the start time and end time hours "
+"blank."
+msgstr ""
+"Nota: Para crear un día \"Cerrado\" es suficiente con dejar en blanco la "
+"hora de inicio y la hora de fin."
+
+#: iva-business-hours-pro.php:1499
+msgid "Create"
+msgstr "Crear"
+
+#: iva-business-hours-pro.php:1500
+msgid "Close"
+msgstr "Cerrar"
+
+#: iva-business-hours-pro.php:1519
+msgid "Now"
+msgstr "Ahora"
+
+#: iva-business-hours-pro.php:1520
+msgid "Done"
+msgstr "Finalizado"
+
+#: iva-business-hours-pro.php:1521
+msgid "AM"
+msgstr "AM"
+
+#: iva-business-hours-pro.php:1521
+msgid "A"
+msgstr "A"
+
+#: iva-business-hours-pro.php:1522
+msgid "PM"
+msgstr "PM"
+
+#: iva-business-hours-pro.php:1522
+msgid "P"
+msgstr "P"
+
+#: iva-business-hours-pro.php:1525
+msgid "Choose Time"
+msgstr "Seleccionar la hora..."
+
+#: iva-business-hours-pro.php:1526
+msgid "Time"
+msgstr "Horarios"
+
+#: iva-business-hours-pro.php:1527
+msgid "Hour"
+msgstr "Hora"
+
+#: iva-business-hours-pro.php:1528
+msgid "Minute"
+msgstr "Minuto"
+
+#: iva-business-hours-pro.php:1529
+msgid "Second"
+msgstr "Segunda"
+
+#: iva-business-hours-pro.php:1530
+msgid "Millisecond"
+msgstr "Milisegundo"
+
+#: iva-business-hours-pro.php:1531
+msgid "Microsecond"
+msgstr "Microsegundo"
+
+#: iva-business-hours-pro.php:1532
+msgid "Time Zone"
+msgstr "Zona horaria"
+
+#: iva-business-hours-pro.php:1593 iva-business-hours-pro.php:1731
+msgid "Enter Title"
+msgstr "Introduce el Título"
+
+#: iva-business-hours-pro.php:1603 iva-business-hours-pro.php:1744
+msgid "Alias Exist"
+msgstr "Alias ​​Existir"
+
+#: iva-business-hours-pro.php:1607 iva-business-hours-pro.php:1748
+msgid "Enter Alias"
+msgstr "Introduce un Alias"
+
+#: iva-business-hours-pro.php:1692
+msgid "Created Successfully"
+msgstr "Creado Correctamente"
+
+#: iva-business-hours-pro.php:1832
+msgid "Updated Successfully"
+msgstr "Actualizado exitosamente"
+
+#: iva-business-hours-pro.php:1860
+msgid "Deleted Successfully"
+msgstr "Eliminado Correctamente"
+
+#: iva_bhrs_holidays_vc_addon.php:35
+#, fuzzy
+msgid "Display BHP Holidays"
+msgstr "Display BHP Holidays"
+
+#: iva_bhrs_holidays_vc_addon.php:44
+#, fuzzy
+msgid "Display title for holidays"
+msgstr "Añadir nombre para mostrar de vacaciones."
+
+#: iva_bhrs_holidays_vc_addon.php:50
+msgid "Holidays"
+msgstr "Vacaciones"
+
+#: iva_bhrs_holidays_vc_addon.php:53
+#, fuzzy
+msgid "Check the Holidays you wish to display."
+msgstr "Compruebe esto si desea activar / desactivar título."
+
+#: iva_bhrs_holidays_vc_addon.php:57
+#, fuzzy
+#| msgid "Choose Time"
+msgid "Choose Styles"
+msgstr "Seleccionar la hora..."
+
+#: iva_bhrs_holidays_vc_addon.php:64
+#, fuzzy
+#| msgid "Choose the update file:"
+msgid "Choose the Holidays Styles"
+msgstr "Selecciona el archivo de actualización:"
+
+#: iva_bhrs_vc_addon.php:29
+#, fuzzy
+msgid "Business Hours Pro"
+msgstr "Business Hours Pro"
+
+#: iva_bhrs_vc_addon.php:34
+msgid "Hours Shortcode"
+msgstr "Horas Código corto"
+
+#: iva_bhrs_vc_addon.php:43
+msgid "Select the hours shortcode to display"
+msgstr "Seleccione shortcode"
+
+#: iva_bhrs_vc_addon.php:48
+#, fuzzy
+msgid "Shortcode Title:"
+msgstr "Título del Shortcode"
+
+#: iva_bhrs_vc_addon.php:51
+#, fuzzy
+msgid "Check this if you wish to display the title."
+msgstr "Compruebe esto si desea activar / desactivar título."
+
+#: iva_bhrs_vc_addon.php:56
+msgid "Grouping Hours:"
+msgstr "Agrupación de horas:"
+
+#: iva_bhrs_vc_addon.php:59
+msgid ""
+"Check this if you wish to group the hours display if the timings are same."
+msgstr ""
+"Compruebe esto si usted desea agrupar la pantalla horas si los tiempos son "
+"iguales."
+
+#~ msgid "Display Business Hours."
+#~ msgstr "Mostrar horario."
+
+#~ msgid "Select Hours:"
+#~ msgstr "Seleccione Horario:"
+
+#~ msgid "Check this if you wish to group the hours if timings are same."
+#~ msgstr ""
+#~ "Compruebe esto si desea agrupar las horas si los tiempos son iguales."
+
+#~ msgid "CSS: Additional CSS Class Name"
+#~ msgstr "CSS: CSS adicional Nombre de clase"
+
+#~ msgid " Select the Language for datepicker and calender inputs."
+#~ msgstr "Seleccione el idioma para las entradas datepicker y calandria."
+
+#~ msgid "Add Holiday"
+#~ msgstr "Añadir vacaciones"
+
+#~ msgid ""
+#~ "Plugin Developed by - <a href=\"http://www.aivahthemes.com\" target="
+#~ "\"_blank\">AivahThemes</a>"
+#~ msgstr ""
+#~ "Plugin Desarrollado por - <a href=\"http://www.aivahthemes.com\" target="
+#~ "\"_blank\">AivahThemes</a>"
+
+#~ msgid "Welcome to Business Hours Pro Plugin"
+#~ msgstr "Bienvenidos a Horarios Comerciales Pro Plugin"
+
+#~ msgid "Version"
+#~ msgstr "Versión"
+
+#~ msgid "Documentation and Setup"
+#~ msgstr "Documentación y configuración"
+
+#~ msgid ""
+#~ "Below are the instructions on how to install the plugin and start using "
+#~ "it."
+#~ msgstr ""
+#~ "Debajo tienes las instrucciones para instalar el plugin y comenzar a "
+#~ "utilizarlo."
+
+#~ msgid ""
+#~ "Upload `iva-business-hours-pro` directory to the `/wp-content/plugins/` "
+#~ "directory"
+#~ msgstr ""
+#~ "Sube el directorio `iva-business-hours-pro` a `/wp-content/plugins/`"
+
+#~ msgid ""
+#~ "Activate the plugin through the \"Plugins\" menu in WordPress directory"
+#~ msgstr "Activa el plugin desde el menú de \"Plugins\" del administrador"
+
+#~ msgid ""
+#~ "Add shortcodes in your posts e.g: [iva_bhrs name=\"Office Timings\" width="
+#~ "\"300\" title=\"true\" current_day_color=\"#ff8800\" grouping_hrs=\"on\"]"
+#~ msgstr ""
+#~ "Añadir códigos cortos en sus mensajes, por ejemplo: [iva_bhrs name = "
+#~ "\"Oficina Tiempos\" width = \"300\" title = \"true\" current_day_color = "
+#~ "\"# ff8800\" grouping_hrs = \"on\"]"
+
+#~ msgid "Add widget in desired widget area."
+#~ msgstr "Añade el módulo en la zona que desees."
+
+#~ msgid ""
+#~ "If you wish to change the layout and styling for business hours display "
+#~ "edit iva-bh-front.css file located in the iva-business-hours-pro/assets/"
+#~ "css/"
+#~ msgstr ""
+#~ "Si deseas cambiar la maquetación y estilo del horario puedes editar el "
+#~ "archivo iva-bh-front.css ubicado en la carpeta iva-business-hours-pro/"
+#~ "assets/css/"
+
+#~ msgid "More options coming soon like import/export for the business hours."
+#~ msgstr ""
+#~ "Más opciones muy pronto como la importación / exportación de las horas de "
+#~ "oficina."
+
+#~ msgid "Additional Text / End Time"
+#~ msgstr "Texto adicional / Hora de finalización"
+
+#~ msgid "Add Period"
+#~ msgstr "Añadir vacaciones"
+
+#~ msgid "Remove"
+#~ msgstr "Eliminar."
+
+#~ msgid "Title:"
+#~ msgstr "Título:"
+
+#~ msgid "Alias:"
+#~ msgstr "Alias:"
+
+#~ msgid "Slug and the shortcode ,Do not use special characters ."
+#~ msgstr "Slug y el código corto, no utilice caracteres especiales."
+
+#~ msgid "Hours Shortcode."
+#~ msgstr "Código abreviado para insertar este horario."
+
+#~ msgid "Description:"
+#~ msgstr "Descripción:"
+
+#~ msgid "Description Hide:"
+#~ msgstr "Descripción Ocultar:"
+
+#~ msgid "Current Day:"
+#~ msgstr "Día actual:"
+
+#~ msgid "Current Day Color:"
+#~ msgstr "Color de texto del Día actual"
+
+#~ msgid "Enter the color code to highlight the current day."
+#~ msgstr "Introduzca el código de colores para resaltar el día actual."
+
+#~ msgid "Closed BG color:"
+#~ msgstr "Color de fondo para el texto de \"Cerrado\"."
+
+#~ msgid "Style :"
+#~ msgstr "Estilo:"
+
+#~ msgid "The Title for Business hours."
+#~ msgstr "El Título de Horario."
+
+#~ msgid "Alias"
+#~ msgstr "Alias"
+
+#~ msgid "Separator"
+#~ msgstr "Separador"
+
+#~ msgid ""
+#~ "Time Separator ( eg: 09:00 <strong> - </strong> 06:00 )add one space "
+#~ "before and after your separator symbol."
+#~ msgstr ""
+#~ "Tiempo de separación (por ejemplo: <strong>9:00-6:00)</strong> añadir un "
+#~ "espacio antes y después de su símbolo separador."
+
+#~ msgid "Prefix"
+#~ msgstr "Prefijo"
+
+#~ msgid "Current Day"
+#~ msgstr "Día actual:"
+
+#~ msgid ""
+#~ "Check this if you wish to highlight the current day with different color."
+#~ msgstr ""
+#~ "Compruebe esto si usted desea destacar el día de hoy con un color "
+#~ "diferente."
+
+#~ msgid "Enter the color of the current day to highlight the current day."
+#~ msgstr "Introduzca el color del día actual para resaltar el día actual."
+
+#~ msgid "Closed BG"
+#~ msgstr "Cerrado BG"
+
+#~ msgid ""
+#~ "Enter the color code for the closed text background, make sure you select "
+#~ "dark colors on the text color is white by default."
+#~ msgstr ""
+#~ "Introduzca el código de color para el fondo del texto cerrado, asegúrese "
+#~ "de seleccionar los colores oscuros en el color del texto es blanco de "
+#~ "forma predeterminada."
+
+#~ msgid "Grouping"
+#~ msgstr "Agrupamiento"
+
+#~ msgid ""
+#~ "Check this if you wish to group the hours display if the timings are "
+#~ "same.."
+#~ msgstr ""
+#~ "Compruebe esto si usted desea agrupar la pantalla horas si los tiempos "
+#~ "son los mismos .."
+
+#~ msgid "Style"
+#~ msgstr "Estilo"
+
+#~ msgid "Plugin Developed by"
+#~ msgstr "Plugin Desarrollado por"
+
+#~ msgid "Suffix"
+#~ msgstr "Sufijo"
+
+#~ msgid "Enter title"
+#~ msgstr "Introduce el Título"
+
+#~ msgid "Width"
+#~ msgstr "Ancho"
+
+#~ msgid "Title Enable/Disable:"
+#~ msgstr "Título Activar / Desactivar:"
+
+#~ msgid "closed"
+#~ msgstr "cerrado"

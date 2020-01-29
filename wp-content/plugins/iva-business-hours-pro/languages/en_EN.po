@@ -1,0 +1,86 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Aivah Business Hours Pro\n"
+"POT-Creation-Date: 2017-02-20 19:01+0530\n"
+"PO-Revision-Date: 2017-02-20 19:01+0530\n"
+"Last-Translator: info@aivahthemes.com <info@aivahthemes.com>\n"
+"Language-Team: AivahThemes <info@aivahthemes.com>\n"
+"Language: en_EN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.12\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: _e;__;_x\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: iva-bhrs-widget-holidays.php:130
+msgid "Holidays Style:"
+msgstr ""
+
+#: iva-business-hours-pro-shortcode.php:174
+#: iva-business-hours-pro-widget.php:178 iva_bhrs_vc_addon.php:250
+msgid "H:i"
+msgstr ""
+
+#: iva_bhrs_holidays_vc_addon.php:35
+msgid "Display BHP Holidays"
+msgstr ""
+
+#: iva_bhrs_holidays_vc_addon.php:41
+msgid "Title"
+msgstr ""
+
+#: iva_bhrs_holidays_vc_addon.php:44
+msgid "Display title for holidays"
+msgstr ""
+
+#: iva_bhrs_holidays_vc_addon.php:50
+msgid "Holidays"
+msgstr ""
+
+#: iva_bhrs_holidays_vc_addon.php:53
+msgid "Check the Holidays you wish to display."
+msgstr ""
+
+#: iva_bhrs_vc_addon.php:29
+msgid "Business Hours Pro"
+msgstr ""
+
+#: iva_bhrs_vc_addon.php:34
+msgid "Hours Shortcode"
+msgstr ""
+
+#: iva_bhrs_vc_addon.php:40
+msgid "Select Hours"
+msgstr ""
+
+#: iva_bhrs_vc_addon.php:43
+msgid "Select the hours shortcode to display"
+msgstr ""
+
+#: iva_bhrs_vc_addon.php:48
+msgid "Shortcode Title:"
+msgstr ""
+
+#: iva_bhrs_vc_addon.php:51
+msgid "Check this if you wish to display the title."
+msgstr ""
+
+#: iva_bhrs_vc_addon.php:56
+msgid "Grouping Hours:"
+msgstr ""
+
+#: iva_bhrs_vc_addon.php:59
+msgid "Check this if you wish to group the hours display if the timings are same."
+msgstr ""
+
+#: iva_bhrs_vc_addon.php:64
+msgid "Custom Width"
+msgstr ""
+
+#: iva_bhrs_vc_addon.php:67
+msgid "Enter the width in only numbers, no percentage or pixels."
+msgstr ""

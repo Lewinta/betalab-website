@@ -1,0 +1,24 @@
+/* Shortcode Generator UI
+==================================================== */
+
+.primary_select select { min-width:200px; width:auto important; }
+.primary_select select option { padding:4px !important; 	}
+.shortcodestab select { margin-bottom:5px; }
+.shortcodestab th { font-size:13px; text-align:right; padding-right:10px; width:20%; line-height:normal }
+.shortcodestab th .info { display:block; font-size:11px; color:#999; font-weight:normal;}
+
+input#sendtoeditor { margin-left:21%; font-weight:bold; }
+.sendbox	{
+	margin:10px auto;  
+	overflow:hidden;
+	padding:5px 0;
+}
+
+.sc_separator { background:#dddddd;}
+
+.atp_meta_options table { width:100%; }
+.atp_meta_options table tr:nth-child(even) {background: #f0f0f0}
+.atp_meta_options table tr:nth-child(odd) {background: #ffffff}
+.atp_meta_options tr.class_hide { display:none;}
+.atp_meta_options table tr.animation {background: #e8fcda }
+

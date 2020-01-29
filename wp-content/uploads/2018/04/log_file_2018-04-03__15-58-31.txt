@@ -1,0 +1,96 @@
+
+---Downloaded files---
+The import files for: labora Demo were successfully downloaded!
+Initial max execution time = 60
+Files info:
+Site URL = http://165.227.29.172
+Data file = /var/www/html/wp-content/themes/labora//theme-demo/main-demo/Sample-Data.xml
+Widget file = /var/www/html/wp-content/themes/labora//theme-demo/main-demo/widget_data.wie
+Customizer file = not defined!
+Redux files:
+not defined!
+
+------
+New AJAX call!
+
+
+---Importing widgets---
+Main Sidebar : 
+
+Categories - No Title - Widget already exists
+Text - No Title - Imported
+Recent Posts - Recent Releases - Imported
+Text - Twitter Tweets - Imported
+
+Header Widget Left : 
+
+ Labora Child - Icon Box - Call Toll Free - Imported
+
+Header Widget Right : 
+
+ Labora Child - Icon Box - Envato HQ - Imported
+ Labora Child - Icon Box - Opening Time - Imported
+
+Topbar Left : 
+
+Text - No Title - Imported
+
+Topbar Right : 
+
+ Labora Child - Sociables - No Title - Imported
+Navigation Menu - No Title - Imported
+
+Footer Area Top : 
+
+Text - No Title - Imported
+
+Footer Area Bottom : 
+
+Text - No Title - Imported
+
+Cases Sidebar : 
+
+Navigation Menu - No Title - Imported
+Text - No Title - Imported
+Text - No Title - Imported
+
+About Sidebar : 
+
+Navigation Menu - No Title - Imported
+Text - No Title - Imported
+Text - No Title - Imported
+
+Vacancy Sidebar : 
+
+Navigation Menu - No Title - Imported
+Text - No Title - Imported
+Text - No Title - Imported
+
+Team Sidebar : 
+
+Text - No Title - Imported
+Text - No Title - Imported
+
+Service Sidebar : 
+
+Navigation Menu - No Title - Imported
+Text - No Title - Imported
+Text - No Title - Imported
+
+Team Single Sidebar : 
+
+Navigation Menu - No Title - Imported
+Text - No Title - Imported
+Text - No Title - Imported
+
+Footer Widgets : 
+
+Text - No Title - Imported
+Navigation Menu - Quick Links - Imported
+Navigation Menu - Quick Links - Imported
+ Labora Child - Contact Info - No Title - Imported
+
+
+
+---pt-ocdi/after_import---
+
