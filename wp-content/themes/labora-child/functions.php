@@ -108,7 +108,7 @@ function wpb_hook_javascript() {
 							open_window(`${message}&_lang=${lan}&trigger_print=1`);
 						}
 						else{
-							console.log("There Was an error")
+							alert('No valid result Found')
 						}
 					});
 					im_done();
