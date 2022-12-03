@@ -8,7 +8,7 @@ from client import Client
 @click.option('--to_date', help='End Date')
 @click.option('--doctor', help='Specify the Doctor who is working with the patient')
 def run(patient="%",  doctor="%", from_date=None, to_date=None):
-	client = Client("http://app.laboratoriobetalab.com", "Administrator", "P@ssword2017")
+	client = Client("http://app.laboratoriobetalab.com", "Usr", "pass")
 
 	result_list = client.get_list("Resultado", filters=[
 			["paciente", "Like", "%{patient}%".format(patient=patient or "%")],

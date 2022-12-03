@@ -6,7 +6,7 @@ from client import Client
 @click.option('--party', help='Party your looking for leave blank for any')
 @click.option('--hash', help='Specify the hash assigned to the party')
 def run(hash, party="Paciente"):
-	client = Client("http://app.laboratoriobetalab.com", "Administrator", "P@ssword2017")
+	client = Client("http://app.laboratoriobetalab.com", "Usr", "P@ss")
 
 	result = client.get_value(party, filters={
 		"web_hash": hash,

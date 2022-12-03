@@ -5,7 +5,7 @@
 	curl_setopt($ch, CURLOPT_URL, 'http://app.laboratoriobetalab.com/api/method/login');
 	curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/32.0.1700.107 Chrome/32.0.1700.107 Safari/537.36');
 	curl_setopt($ch, CURLOPT_POST, true);
-	curl_setopt($ch, CURLOPT_POSTFIELDS, "usr=Administrator&pwd=P@ssword2017");
+	curl_setopt($ch, CURLOPT_POSTFIELDS, "usr=usr&pwd=P@ss");
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_COOKIESESSION, true);
 	curl_setopt($ch, CURLOPT_COOKIEJAR, 'frappe-cookie');  //could be empty, but cause problems on some hosts
