@@ -65,6 +65,65 @@ if ( ! function_exists( 'labora_theme_enqueue_scripts' ) ) {
 	}
 	add_action( 'wp_enqueue_scripts','labora_theme_enqueue_scripts' );
 }
+
+function wpb_hook_javascript() {
+	if (is_page ('Validate Result')) { 
+	  ?>
+		<script type="text/javascript">
+
+		var getUrlParameter = function getUrlParameter(sParam) {
+			var sPageURL = decodeURIComponent(window.location.search.substring(1)), sURLVariables = sPageURL.split('&'), sParameterName, i;
+			for (i = 0; i < sURLVariables.length; i++) { 
+				sParameterName = sURLVariables[i].split('='); 
+				if (sParameterName[0] === sParam) { 
+					return sParameterName[1] === undefined ? true : sParameterName[1]; 
+				} 
+			} 
+		};
+		var url_key_code = getUrlParameter('key_code');
+		if (url_key_code != null) { 
+			setTimeout(() => {
+				document.getElementById('key_code').value = url_key_code; 
+
+				// Let's add action to the validate btn
+
+				let btn = document.getElementById('validate-result-btn');
+				btn.addEventListener('click', () => {
+					const key_code = document.getElementById('key_code').value;
+					const authorization = document.getElementById('authorization').value;
+					const language = document.getElementById('language').value;
+					const key = key_code + authorization
+					$.ajax({
+						url: "https://app.laboratoriobetalab.com/api/method/consultas.consultas.api.get_single_result",
+						type: "POST",
+						crossDomain: true,
+						data: {
+							key
+						},
+						dataType: "json"
+					}).done(function({message}) {
+						// console.log(response.message);
+						if (!!message){
+							let lan = language == "English" ? 'en': 'es';
+							open_window(`${message}&_lang=${lan}&trigger_print=1`);
+						}
+						else{
+							console.log("There Was an error")
+						}
+					});
+					im_done();
+				})
+			}, 2000);
+		} 
+
+		
+
+		</script>
+	  <?php
+	}
+  }
+  add_action('wp_head', 'wpb_hook_javascript');
+
 /**
  * Flex Slider Enqueue Scripts
  */
