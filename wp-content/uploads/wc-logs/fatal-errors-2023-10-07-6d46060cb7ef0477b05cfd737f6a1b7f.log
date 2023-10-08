@@ -1,0 +1,228 @@
+2023-10-07T23:35:17+00:00 CRITICAL Uncaught ArgumentCountError: Too few arguments to function wp_nav_menu_remove_menu_item_has_children_class(), 1 passed in /var/www/html/wp-includes/class-wp-hook.php on line 310 and at least 2 expected in /var/www/html/wp-includes/nav-menu-template.php:659
+Stack trace:
+#0 /var/www/html/wp-includes/class-wp-hook.php(310): wp_nav_menu_remove_menu_item_has_children_class()
+#1 /var/www/html/wp-includes/plugin.php(205): WP_Hook->apply_filters()
+#2 /var/www/html/wp-content/themes/labora/framework/common/iva-generator.php(688): apply_filters()
+#3 /var/www/html/wp-includes/class-wp-walker.php(147): Labora_Custom_Menu_Walker->start_el()
+#4 /var/www/html/wp-includes/class-wp-walker.php(247): Walker->display_element()
+#5 /var/www/html/wp-includes/nav-menu-template.php(616): Walker->walk()
+#6 /var/www/html/wp-includes/nav-menu-template.php(236): walk_nav_menu_tree()
+#7 /var/www/html/wp-content/themes/labora/framework/common/iva-generator.php(20): wp_nav_menu()
+#8 /var/www/html/wp-content/themes/labora/framework/common/iv in /var/www/html/wp-includes/nav-menu-template.php on line 659
+
+2023-10-07T23:35:18+00:00 CRITICAL Uncaught ArgumentCountError: Too few arguments to function wp_nav_menu_remove_menu_item_has_children_class(), 1 passed in /var/www/html/wp-includes/class-wp-hook.php on line 310 and at least 2 expected in /var/www/html/wp-includes/nav-menu-template.php:659
+Stack trace:
+#0 /var/www/html/wp-includes/class-wp-hook.php(310): wp_nav_menu_remove_menu_item_has_children_class()
+#1 /var/www/html/wp-includes/plugin.php(205): WP_Hook->apply_filters()
+#2 /var/www/html/wp-content/themes/labora/framework/common/iva-generator.php(688): apply_filters()
+#3 /var/www/html/wp-includes/class-wp-walker.php(147): Labora_Custom_Menu_Walker->start_el()
+#4 /var/www/html/wp-includes/class-wp-walker.php(247): Walker->display_element()
+#5 /var/www/html/wp-includes/nav-menu-template.php(616): Walker->walk()
+#6 /var/www/html/wp-includes/nav-menu-template.php(236): walk_nav_menu_tree()
+#7 /var/www/html/wp-content/themes/labora/framework/common/iva-generator.php(20): wp_nav_menu()
+#8 /var/www/html/wp-content/themes/labora/framework/common/iv in /var/www/html/wp-includes/nav-menu-template.php on line 659
+
+2023-10-07T23:36:18+00:00 CRITICAL Uncaught Error: Call to undefined function um_user() in /var/www/html/wp-content/themes/labora/footer.php:90
+Stack trace:
+#0 /var/www/html/wp-includes/template.php(785): require_once()
+#1 /var/www/html/wp-includes/template.php(720): load_template()
+#2 /var/www/html/wp-includes/general-template.php(92): locate_template()
+#3 /var/www/html/wp-content/themes/labora/page.php(29): get_footer()
+#4 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#5 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#6 /var/www/html/index.php(17): require('/var/www/html/w...')
+#7 {main}
+  thrown in /var/www/html/wp-content/themes/labora/footer.php on line 90
+
+2023-10-07T23:36:19+00:00 CRITICAL Uncaught Error: Call to undefined function um_user() in /var/www/html/wp-content/themes/labora/footer.php:90
+Stack trace:
+#0 /var/www/html/wp-includes/template.php(785): require_once()
+#1 /var/www/html/wp-includes/template.php(720): load_template()
+#2 /var/www/html/wp-includes/general-template.php(92): locate_template()
+#3 /var/www/html/wp-content/themes/labora/page.php(29): get_footer()
+#4 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#5 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#6 /var/www/html/index.php(17): require('/var/www/html/w...')
+#7 {main}
+  thrown in /var/www/html/wp-content/themes/labora/footer.php on line 90
+
+2023-10-07T23:36:24+00:00 CRITICAL Uncaught Error: Call to undefined function um_user() in /var/www/html/wp-content/themes/labora/footer.php:90
+Stack trace:
+#0 /var/www/html/wp-includes/template.php(785): require_once()
+#1 /var/www/html/wp-includes/template.php(720): load_template()
+#2 /var/www/html/wp-includes/general-template.php(92): locate_template()
+#3 /var/www/html/wp-content/themes/labora/page.php(29): get_footer()
+#4 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#5 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#6 /var/www/html/index.php(17): require('/var/www/html/w...')
+#7 {main}
+  thrown in /var/www/html/wp-content/themes/labora/footer.php on line 90
+
+2023-10-07T23:36:24+00:00 CRITICAL Uncaught Error: Call to undefined function um_user() in /var/www/html/wp-content/themes/labora/footer.php:90
+Stack trace:
+#0 /var/www/html/wp-includes/template.php(785): require_once()
+#1 /var/www/html/wp-includes/template.php(720): load_template()
+#2 /var/www/html/wp-includes/general-template.php(92): locate_template()
+#3 /var/www/html/wp-content/themes/labora/page.php(29): get_footer()
+#4 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#5 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#6 /var/www/html/index.php(17): require('/var/www/html/w...')
+#7 {main}
+  thrown in /var/www/html/wp-content/themes/labora/footer.php on line 90
+
+2023-10-07T23:36:30+00:00 CRITICAL Uncaught Error: Call to undefined function um_user() in /var/www/html/wp-content/themes/labora/footer.php:90
+Stack trace:
+#0 /var/www/html/wp-includes/template.php(785): require_once()
+#1 /var/www/html/wp-includes/template.php(720): load_template()
+#2 /var/www/html/wp-includes/general-template.php(92): locate_template()
+#3 /var/www/html/wp-content/themes/labora/page.php(29): get_footer()
+#4 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#5 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#6 /var/www/html/index.php(17): require('/var/www/html/w...')
+#7 {main}
+  thrown in /var/www/html/wp-content/themes/labora/footer.php on line 90
+
+2023-10-07T23:36:33+00:00 CRITICAL Uncaught Error: Call to undefined function um_user() in /var/www/html/wp-content/themes/labora/footer.php:90
+Stack trace:
+#0 /var/www/html/wp-includes/template.php(785): require_once()
+#1 /var/www/html/wp-includes/template.php(720): load_template()
+#2 /var/www/html/wp-includes/general-template.php(92): locate_template()
+#3 /var/www/html/wp-content/themes/labora/page.php(29): get_footer()
+#4 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#5 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#6 /var/www/html/index.php(17): require('/var/www/html/w...')
+#7 {main}
+  thrown in /var/www/html/wp-content/themes/labora/footer.php on line 90
+
+2023-10-07T23:36:38+00:00 CRITICAL Uncaught Error: Call to undefined function um_user() in /var/www/html/wp-content/themes/labora/footer.php:90
+Stack trace:
+#0 /var/www/html/wp-includes/template.php(785): require_once()
+#1 /var/www/html/wp-includes/template.php(720): load_template()
+#2 /var/www/html/wp-includes/general-template.php(92): locate_template()
+#3 /var/www/html/wp-content/themes/labora/page.php(29): get_footer()
+#4 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#5 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#6 /var/www/html/index.php(17): require('/var/www/html/w...')
+#7 {main}
+  thrown in /var/www/html/wp-content/themes/labora/footer.php on line 90
+
+2023-10-07T23:36:42+00:00 CRITICAL Uncaught Error: Call to undefined function um_user() in /var/www/html/wp-content/themes/labora/footer.php:90
+Stack trace:
+#0 /var/www/html/wp-includes/template.php(785): require_once()
+#1 /var/www/html/wp-includes/template.php(720): load_template()
+#2 /var/www/html/wp-includes/general-template.php(92): locate_template()
+#3 /var/www/html/wp-content/themes/labora/page.php(29): get_footer()
+#4 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#5 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#6 /var/www/html/index.php(17): require('/var/www/html/w...')
+#7 {main}
+  thrown in /var/www/html/wp-content/themes/labora/footer.php on line 90
+
+2023-10-07T23:37:59+00:00 CRITICAL Uncaught Error: Call to undefined function um_user() in /var/www/html/wp-content/themes/labora/footer.php:90
+Stack trace:
+#0 /var/www/html/wp-includes/template.php(785): require_once()
+#1 /var/www/html/wp-includes/template.php(720): load_template()
+#2 /var/www/html/wp-includes/general-template.php(92): locate_template()
+#3 /var/www/html/wp-content/themes/labora/page.php(29): get_footer()
+#4 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#5 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#6 /var/www/html/index.php(17): require('/var/www/html/w...')
+#7 {main}
+  thrown in /var/www/html/wp-content/themes/labora/footer.php on line 90
+
+2023-10-07T23:39:25+00:00 CRITICAL Uncaught Error: Call to undefined function um_user() in /var/www/html/wp-content/themes/labora/footer.php:90
+Stack trace:
+#0 /var/www/html/wp-includes/template.php(785): require_once()
+#1 /var/www/html/wp-includes/template.php(720): load_template()
+#2 /var/www/html/wp-includes/general-template.php(92): locate_template()
+#3 /var/www/html/wp-content/themes/labora/page.php(29): get_footer()
+#4 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#5 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#6 /var/www/html/index.php(17): require('/var/www/html/w...')
+#7 {main}
+  thrown in /var/www/html/wp-content/themes/labora/footer.php on line 90
+
+2023-10-07T23:41:21+00:00 CRITICAL Uncaught Error: Call to undefined function um_user() in /var/www/html/wp-content/themes/labora/footer.php:90
+Stack trace:
+#0 /var/www/html/wp-includes/template.php(785): require_once()
+#1 /var/www/html/wp-includes/template.php(720): load_template()
+#2 /var/www/html/wp-includes/general-template.php(92): locate_template()
+#3 /var/www/html/wp-content/themes/labora/page.php(29): get_footer()
+#4 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#5 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#6 /var/www/html/index.php(17): require('/var/www/html/w...')
+#7 {main}
+  thrown in /var/www/html/wp-content/themes/labora/footer.php on line 90
+
+2023-10-07T23:48:09+00:00 CRITICAL Uncaught Error: Call to undefined function um_user() in /var/www/html/wp-content/themes/labora/footer.php:90
+Stack trace:
+#0 /var/www/html/wp-includes/template.php(785): require_once()
+#1 /var/www/html/wp-includes/template.php(720): load_template()
+#2 /var/www/html/wp-includes/general-template.php(92): locate_template()
+#3 /var/www/html/wp-content/themes/labora/page.php(29): get_footer()
+#4 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#5 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#6 /var/www/html/index.php(17): require('/var/www/html/w...')
+#7 {main}
+  thrown in /var/www/html/wp-content/themes/labora/footer.php on line 90
+
+2023-10-07T23:48:11+00:00 CRITICAL Uncaught Error: Call to undefined function um_user() in /var/www/html/wp-content/themes/labora/footer.php:90
+Stack trace:
+#0 /var/www/html/wp-includes/template.php(785): require_once()
+#1 /var/www/html/wp-includes/template.php(720): load_template()
+#2 /var/www/html/wp-includes/general-template.php(92): locate_template()
+#3 /var/www/html/wp-content/themes/labora/page.php(29): get_footer()
+#4 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#5 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#6 /var/www/html/index.php(17): require('/var/www/html/w...')
+#7 {main}
+  thrown in /var/www/html/wp-content/themes/labora/footer.php on line 90
+
+2023-10-07T23:48:12+00:00 CRITICAL Uncaught Error: Call to undefined function um_user() in /var/www/html/wp-content/themes/labora/footer.php:90
+Stack trace:
+#0 /var/www/html/wp-includes/template.php(785): require_once()
+#1 /var/www/html/wp-includes/template.php(720): load_template()
+#2 /var/www/html/wp-includes/general-template.php(92): locate_template()
+#3 /var/www/html/wp-content/themes/labora/page.php(29): get_footer()
+#4 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#5 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#6 /var/www/html/index.php(17): require('/var/www/html/w...')
+#7 {main}
+  thrown in /var/www/html/wp-content/themes/labora/footer.php on line 90
+
+2023-10-07T23:48:14+00:00 CRITICAL Uncaught Error: Call to undefined function um_user() in /var/www/html/wp-content/themes/labora/footer.php:90
+Stack trace:
+#0 /var/www/html/wp-includes/template.php(785): require_once()
+#1 /var/www/html/wp-includes/template.php(720): load_template()
+#2 /var/www/html/wp-includes/general-template.php(92): locate_template()
+#3 /var/www/html/wp-content/themes/labora/page.php(29): get_footer()
+#4 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#5 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#6 /var/www/html/index.php(17): require('/var/www/html/w...')
+#7 {main}
+  thrown in /var/www/html/wp-content/themes/labora/footer.php on line 90
+
+2023-10-07T23:48:15+00:00 CRITICAL Uncaught Error: Call to undefined function um_user() in /var/www/html/wp-content/themes/labora/footer.php:90
+Stack trace:
+#0 /var/www/html/wp-includes/template.php(785): require_once()
+#1 /var/www/html/wp-includes/template.php(720): load_template()
+#2 /var/www/html/wp-includes/general-template.php(92): locate_template()
+#3 /var/www/html/wp-content/themes/labora/page.php(29): get_footer()
+#4 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#5 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#6 /var/www/html/index.php(17): require('/var/www/html/w...')
+#7 {main}
+  thrown in /var/www/html/wp-content/themes/labora/footer.php on line 90
+
+2023-10-07T23:58:16+00:00 CRITICAL Uncaught Error: Call to undefined function um_user() in /var/www/html/wp-content/themes/labora/footer.php:90
+Stack trace:
+#0 /var/www/html/wp-includes/template.php(785): require_once()
+#1 /var/www/html/wp-includes/template.php(720): load_template()
+#2 /var/www/html/wp-includes/general-template.php(92): locate_template()
+#3 /var/www/html/wp-content/themes/labora/page.php(29): get_footer()
+#4 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#5 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#6 /var/www/html/index.php(17): require('/var/www/html/w...')
+#7 {main}
+  thrown in /var/www/html/wp-content/themes/labora/footer.php on line 90
+

@@ -2,7 +2,7 @@
 /**
  * Handles responses from PayPal IPN.
  *
- * @package WooCommerce/PayPal
+ * @package WooCommerce\PayPal
  * @version 3.3.0
  */
 
@@ -45,9 +45,8 @@ class WC_Gateway_Paypal_IPN_Handler extends WC_Gateway_Paypal_Response {
 		if ( ! empty( $_POST ) && $this->validate_ipn() ) { // WPCS: CSRF ok.
 			$posted = wp_unslash( $_POST ); // WPCS: CSRF ok, input var ok.
 
-			// @codingStandardsIgnoreStart
+			// phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 			do_action( 'valid-paypal-standard-ipn-request', $posted );
-			// @codingStandardsIgnoreEnd
 			exit;
 		}
 
@@ -99,16 +98,15 @@ class WC_Gateway_Paypal_IPN_Handler extends WC_Gateway_Paypal_Response {
 		// Post back to get a response.
 		$response = wp_safe_remote_post( $this->sandbox ? 'https://www.sandbox.paypal.com/cgi-bin/webscr' : 'https://www.paypal.com/cgi-bin/webscr', $params );
 
-		WC_Gateway_Paypal::log( 'IPN Request: ' . wc_print_r( $params, true ) );
 		WC_Gateway_Paypal::log( 'IPN Response: ' . wc_print_r( $response, true ) );
 
 		// Check to see if the request was valid.
 		if ( ! is_wp_error( $response ) && $response['response']['code'] >= 200 && $response['response']['code'] < 300 && strstr( $response['body'], 'VERIFIED' ) ) {
-			WC_Gateway_Paypal::log( 'Received valid response from PayPal' );
+			WC_Gateway_Paypal::log( 'Received valid response from PayPal IPN' );
 			return true;
 		}
 
-		WC_Gateway_Paypal::log( 'Received invalid response from PayPal' );
+		WC_Gateway_Paypal::log( 'Received invalid response from PayPal IPN' );
 
 		if ( is_wp_error( $response ) ) {
 			WC_Gateway_Paypal::log( 'Error response: ' . $response->get_error_message() );
@@ -203,12 +201,11 @@ class WC_Gateway_Paypal_IPN_Handler extends WC_Gateway_Paypal_Response {
 				$this->payment_status_paid_cancelled_order( $order, $posted );
 			}
 
-			$this->payment_complete( $order, ( ! empty( $posted['txn_id'] ) ? wc_clean( $posted['txn_id'] ) : '' ), __( 'IPN payment completed', 'woocommerce' ) );
-
 			if ( ! empty( $posted['mc_fee'] ) ) {
-				// Log paypal transaction fee.
-				update_post_meta( $order->get_id(), 'PayPal Transaction Fee', wc_clean( $posted['mc_fee'] ) );
+				$order->add_meta_data( 'PayPal Transaction Fee', wc_clean( $posted['mc_fee'] ) );
 			}
+
+			$this->payment_complete( $order, ( ! empty( $posted['txn_id'] ) ? wc_clean( $posted['txn_id'] ) : '' ), __( 'IPN payment completed', 'woocommerce' ) );
 		} else {
 			if ( 'authorization' === $posted['pending_reason'] ) {
 				$this->payment_on_hold( $order, __( 'Payment authorized. Change payment status to processing or complete to capture funds.', 'woocommerce' ) );
@@ -293,7 +290,7 @@ class WC_Gateway_Paypal_IPN_Handler extends WC_Gateway_Paypal_Response {
 	 */
 	protected function payment_status_refunded( $order, $posted ) {
 		// Only handle full refunds, not partial.
-		if ( $order->get_total() === wc_format_decimal( $posted['mc_gross'] * -1 ) ) {
+		if ( $order->get_total() === wc_format_decimal( $posted['mc_gross'] * -1, wc_get_price_decimals() ) ) {
 
 			/* translators: %s: payment status. */
 			$order->update_status( 'refunded', sprintf( __( 'Payment %s via IPN.', 'woocommerce' ), strtolower( $posted['payment_status'] ) ) );
@@ -347,24 +344,16 @@ class WC_Gateway_Paypal_IPN_Handler extends WC_Gateway_Paypal_Response {
 	 * @param array    $posted Posted data.
 	 */
 	protected function save_paypal_meta_data( $order, $posted ) {
-		if ( ! empty( $posted['payer_email'] ) ) {
-			update_post_meta( $order->get_id(), 'Payer PayPal address', wc_clean( $posted['payer_email'] ) );
-		}
-		if ( ! empty( $posted['first_name'] ) ) {
-			update_post_meta( $order->get_id(), 'Payer first name', wc_clean( $posted['first_name'] ) );
-		}
-		if ( ! empty( $posted['last_name'] ) ) {
-			update_post_meta( $order->get_id(), 'Payer last name', wc_clean( $posted['last_name'] ) );
-		}
 		if ( ! empty( $posted['payment_type'] ) ) {
-			update_post_meta( $order->get_id(), 'Payment type', wc_clean( $posted['payment_type'] ) );
+			$order->update_meta_data( 'Payment type', wc_clean( $posted['payment_type'] ) );
 		}
 		if ( ! empty( $posted['txn_id'] ) ) {
-			update_post_meta( $order->get_id(), '_transaction_id', wc_clean( $posted['txn_id'] ) );
+			$order->set_transaction_id( wc_clean( $posted['txn_id'] ) );
 		}
 		if ( ! empty( $posted['payment_status'] ) ) {
-			update_post_meta( $order->get_id(), '_paypal_status', wc_clean( $posted['payment_status'] ) );
+			$order->update_meta_data( '_paypal_status', wc_clean( $posted['payment_status'] ) );
 		}
+		$order->save();
 	}
 
 	/**

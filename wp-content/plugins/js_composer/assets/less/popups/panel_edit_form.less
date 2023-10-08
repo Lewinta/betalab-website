@@ -55,9 +55,21 @@
   }
   .wp-color-result.wp-picker-open:after {
     content: "";
+    border: none;
+  }
+  .vc_color-picker .wp-picker-input-wrap label {
+    margin-top: 0;
   }
   input.wp-picker-clear {
     width: auto;
+  }
+
+  .vc_ui-button.vc_param-animation-style-trigger {
+    height: 46px;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    background-color: #EBEBEB;
   }
 }
 
@@ -257,6 +269,7 @@ option, select {
 @import "../params/dropdown.less";
 @import "../lib/pixel_icons.less";
 @import "../params/hidden.less";
+@import "../params/gutenberg.less";
 @import "../lib/css3_animations.less";
 
 // Fix link height due to rel noopener

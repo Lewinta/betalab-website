@@ -2,9 +2,14 @@
 /**
  * Shows a shipping line
  *
+ * @package WooCommerce\Admin
+ *
  * @var object $item The item being displayed
  * @var int $item_id The id of the item being displayed
+ *
+ * @package WooCommerce\Admin\Views
  */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -23,30 +28,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<optgroup label="<?php esc_attr_e( 'Shipping method', 'woocommerce' ); ?>">
 					<option value=""><?php esc_html_e( 'N/A', 'woocommerce' ); ?></option>
 					<?php
-						$found_method = false;
+					$found_method = false;
 
-						foreach ( $shipping_methods as $method ) {
-							$current_method = ( 0 === strpos( $item->get_method_id(), $method->id ) ) ? $item->get_method_id() : $method->id;
+					foreach ( $shipping_methods as $method ) {
+						$is_active = $item->get_method_id() === $method->id;
 
-							echo '<option value="' . esc_attr( $current_method ) . '" ' . selected( $item->get_method_id() === $current_method, true, false ) . '>' . esc_html( $method->get_method_title() ) . '</option>';
+						echo '<option value="' . esc_attr( $method->id ) . '" ' . selected( true, $is_active, false ) . '>' . esc_html( $method->get_method_title() ) . '</option>';
 
-							if ( $item->get_method_id() === $current_method ) {
-								$found_method = true;
-							}
+						if ( $is_active ) {
+							$found_method = true;
 						}
+					}
 
-						if ( ! $found_method && $item->get_method_id() ) {
-							echo '<option value="' . esc_attr( $item->get_method_id() ) . '" selected="selected">' . esc_html__( 'Other', 'woocommerce' ) . '</option>';
-						} else {
-							echo '<option value="other">' . esc_html__( 'Other', 'woocommerce' ) . '</option>';
-						}
+					if ( ! $found_method && $item->get_method_id() ) {
+						echo '<option value="' . esc_attr( $item->get_method_id() ) . '" selected="selected">' . esc_html__( 'Other', 'woocommerce' ) . '</option>';
+					} else {
+						echo '<option value="other">' . esc_html__( 'Other', 'woocommerce' ) . '</option>';
+					}
 					?>
 				</optgroup>
 			</select>
 		</div>
 
 		<?php do_action( 'woocommerce_before_order_itemmeta', $item_id, $item, null ); ?>
-		<?php include( 'html-order-item-meta.php' ); ?>
+		<?php require __DIR__ . '/html-order-item-meta.php'; ?>
 		<?php do_action( 'woocommerce_after_order_itemmeta', $item_id, $item, null ); ?>
 	</td>
 
@@ -58,11 +63,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<td class="line_cost" width="1%">
 		<div class="view">
 			<?php
-				echo wc_price( $item->get_total(), array( 'currency' => $order->get_currency() ) );
-				$refunded = $order->get_total_refunded_for_item( $item_id, 'shipping' );
-				if ( $refunded ) {
-					echo '<small class="refunded">-' . wc_price( $refunded, array( 'currency' => $order->get_currency() ) ) . '</small>';
-				}
+			echo wp_kses_post( wc_price( $item->get_total(), array( 'currency' => $order->get_currency() ) ) );
+			$refunded = -1 * $order->get_total_refunded_for_item( $item_id, 'shipping' );
+			if ( $refunded ) {
+				echo wp_kses_post( '<small class="refunded">' . wc_price( $refunded, array( 'currency' => $order->get_currency() ) ) . '</small>' );
+			}
 			?>
 		</div>
 		<div class="edit" style="display: none;">
@@ -74,31 +79,32 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</td>
 
 	<?php
-		if ( ( $tax_data = $item->get_taxes() ) && wc_tax_enabled() ) {
-			foreach ( $order_taxes as $tax_item ) {
-				$tax_item_id    = $tax_item->get_rate_id();
-				$tax_item_total = isset( $tax_data['total'][ $tax_item_id ] ) ? $tax_data['total'][ $tax_item_id ] : '';
-				?>
-					<td class="line_tax" width="1%">
-						<div class="view">
-							<?php
-								echo ( '' !== $tax_item_total ) ? wc_price( wc_round_tax_total( $tax_item_total ), array( 'currency' => $order->get_currency() ) ) : '&ndash;';
-								$refunded = $order->get_tax_refunded_for_item( $item_id, $tax_item_id, 'shipping' );
-								if ( $refunded ) {
-									echo '<small class="refunded">-' . wc_price( $refunded, array( 'currency' => $order->get_currency() ) ) . '</small>';
-								}
-							?>
-						</div>
-						<div class="edit" style="display: none;">
-							<input type="text" name="shipping_taxes[<?php echo absint( $item_id ); ?>][<?php echo esc_attr( $tax_item_id ); ?>]" placeholder="<?php echo esc_attr( wc_format_localized_price( 0 ) ); ?>" value="<?php echo ( isset( $tax_item_total ) ) ? esc_attr( wc_format_localized_price( $tax_item_total ) ) : ''; ?>" class="line_tax wc_input_price" />
-						</div>
-						<div class="refund" style="display: none;">
-							<input type="text" name="refund_line_tax[<?php echo absint( $item_id ); ?>][<?php echo esc_attr( $tax_item_id ); ?>]" placeholder="<?php echo esc_attr( wc_format_localized_price( 0 ) ); ?>" class="refund_line_tax wc_input_price" data-tax_id="<?php echo esc_attr( $tax_item_id ); ?>" />
-						</div>
-					</td>
-				<?php
-			}
+	$tax_data = $item->get_taxes();
+	if ( $tax_data && wc_tax_enabled() ) {
+		foreach ( $order_taxes as $tax_item ) {
+			$tax_item_id    = $tax_item->get_rate_id();
+			$tax_item_total = isset( $tax_data['total'][ $tax_item_id ] ) ? $tax_data['total'][ $tax_item_id ] : '';
+			?>
+			<td class="line_tax" width="1%">
+				<div class="view">
+					<?php
+					echo wp_kses_post( ( '' !== $tax_item_total ) ? wc_price( $tax_item_total, array( 'currency' => $order->get_currency() ) ) : '&ndash;' );
+					$refunded = -1 * $order->get_tax_refunded_for_item( $item_id, $tax_item_id, 'shipping' );
+					if ( $refunded ) {
+						echo wp_kses_post( '<small class="refunded">' . wc_price( $refunded, array( 'currency' => $order->get_currency() ) ) . '</small>' );
+					}
+					?>
+				</div>
+				<div class="edit" style="display: none;">
+					<input type="text" name="shipping_taxes[<?php echo absint( $item_id ); ?>][<?php echo esc_attr( $tax_item_id ); ?>]" placeholder="<?php echo esc_attr( wc_format_localized_price( 0 ) ); ?>" value="<?php echo ( isset( $tax_item_total ) ) ? esc_attr( wc_format_localized_price( $tax_item_total ) ) : ''; ?>" class="line_tax wc_input_price" />
+				</div>
+				<div class="refund" style="display: none;">
+					<input type="text" name="refund_line_tax[<?php echo absint( $item_id ); ?>][<?php echo esc_attr( $tax_item_id ); ?>]" placeholder="<?php echo esc_attr( wc_format_localized_price( 0 ) ); ?>" class="refund_line_tax wc_input_price" data-tax_id="<?php echo esc_attr( $tax_item_id ); ?>" />
+				</div>
+			</td>
+			<?php
 		}
+	}
 	?>
 	<td class="wc-order-edit-line-item">
 		<?php if ( $order->is_editable() ) : ?>

@@ -2,11 +2,11 @@
 /**
  * WooCommerce Admin Settings Class
  *
- * @author   Automattic
- * @category Admin
- * @package  WooCommerce/Admin
- * @version  3.3.0
+ * @package  WooCommerce\Admin
+ * @version  3.4.0
  */
+
+use Automattic\Jetpack\Constants;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -31,7 +31,7 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 		 *
 		 * @var array
 		 */
-		private static $errors   = array();
+		private static $errors = array();
 
 		/**
 		 * Update messages.
@@ -47,17 +47,17 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 			if ( empty( self::$settings ) ) {
 				$settings = array();
 
-				include_once( dirname( __FILE__ ) . '/settings/class-wc-settings-page.php' );
+				include_once dirname( __FILE__ ) . '/settings/class-wc-settings-page.php';
 
-				$settings[] = include( 'settings/class-wc-settings-general.php' );
-				$settings[] = include( 'settings/class-wc-settings-products.php' );
-				$settings[] = include( 'settings/class-wc-settings-tax.php' );
-				$settings[] = include( 'settings/class-wc-settings-shipping.php' );
-				$settings[] = include( 'settings/class-wc-settings-checkout.php' );
-				$settings[] = include( 'settings/class-wc-settings-accounts.php' );
-				$settings[] = include( 'settings/class-wc-settings-emails.php' );
-				$settings[] = include( 'settings/class-wc-settings-integrations.php' );
-				$settings[] = include( 'settings/class-wc-settings-rest-api.php' );
+				$settings[] = include __DIR__ . '/settings/class-wc-settings-general.php';
+				$settings[] = include __DIR__ . '/settings/class-wc-settings-products.php';
+				$settings[] = include __DIR__ . '/settings/class-wc-settings-tax.php';
+				$settings[] = include __DIR__ . '/settings/class-wc-settings-shipping.php';
+				$settings[] = include __DIR__ . '/settings/class-wc-settings-payment-gateways.php';
+				$settings[] = include __DIR__ . '/settings/class-wc-settings-accounts.php';
+				$settings[] = include __DIR__ . '/settings/class-wc-settings-emails.php';
+				$settings[] = include __DIR__ . '/settings/class-wc-settings-integrations.php';
+				$settings[] = include __DIR__ . '/settings/class-wc-settings-advanced.php';
 
 				self::$settings = apply_filters( 'woocommerce_get_settings_pages', $settings );
 			}
@@ -130,20 +130,27 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 		public static function output() {
 			global $current_section, $current_tab;
 
-			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+			$suffix = Constants::is_true( 'SCRIPT_DEBUG' ) ? '' : '.min';
 
 			do_action( 'woocommerce_settings_start' );
 
-			wp_enqueue_script( 'woocommerce_settings', WC()->plugin_url() . '/assets/js/admin/settings' . $suffix . '.js', array( 'jquery', 'jquery-ui-datepicker', 'jquery-ui-sortable', 'iris', 'selectWoo' ), WC()->version, true );
+			wp_enqueue_script( 'woocommerce_settings', WC()->plugin_url() . '/assets/js/admin/settings' . $suffix . '.js', array( 'jquery', 'wp-util', 'jquery-ui-datepicker', 'jquery-ui-sortable', 'iris', 'selectWoo' ), WC()->version, true );
 
-			wp_localize_script( 'woocommerce_settings', 'woocommerce_settings_params', array(
-				'i18n_nav_warning' => __( 'The changes you made will be lost if you navigate away from this page.', 'woocommerce' ),
-			) );
+			wp_localize_script(
+				'woocommerce_settings',
+				'woocommerce_settings_params',
+				array(
+					'i18n_nav_warning'                    => __( 'The changes you made will be lost if you navigate away from this page.', 'woocommerce' ),
+					'i18n_moved_up'                       => __( 'Item moved up', 'woocommerce' ),
+					'i18n_moved_down'                     => __( 'Item moved down', 'woocommerce' ),
+					'i18n_no_specific_countries_selected' => __( 'Selecting no country / region to sell to prevents from completing the checkout. Continue anyway?', 'woocommerce' ),
+				)
+			);
 
 			// Get tabs for the settings page.
 			$tabs = apply_filters( 'woocommerce_settings_tabs_array', array() );
 
-			include( dirname( __FILE__ ) . '/views/html-admin-settings.php' );
+			include dirname( __FILE__ ) . '/views/html-admin-settings.php';
 		}
 
 		/**
@@ -154,6 +161,10 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 		 * @return mixed
 		 */
 		public static function get_option( $option_name, $default = '' ) {
+			if ( ! $option_name ) {
+				return $default;
+			}
+
 			// Array value.
 			if ( strstr( $option_name, '[' ) ) {
 
@@ -178,7 +189,7 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 			}
 
 			if ( is_array( $option_value ) ) {
-				$option_value = array_map( 'stripslashes', $option_value );
+				$option_value = wp_unslash( $option_value );
 			} elseif ( ! is_null( $option_value ) ) {
 				$option_value = stripslashes( $option_value );
 			}
@@ -189,7 +200,7 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 		/**
 		 * Output admin fields.
 		 *
-		 * Loops though the woocommerce options array and outputs each field.
+		 * Loops through the woocommerce options array and outputs each field.
 		 *
 		 * @param array[] $options Opens array to output.
 		 */
@@ -200,6 +211,13 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 				}
 				if ( ! isset( $value['id'] ) ) {
 					$value['id'] = '';
+				}
+
+				// The 'field_name' key can be used when it is useful to specify an input field name that is different
+				// from the input field ID. We use the key 'field_name' because 'name' is already in use for a different
+				// purpose.
+				if ( ! isset( $value['field_name'] ) ) {
+					$value['field_name'] = $value['id'];
 				}
 				if ( ! isset( $value['title'] ) ) {
 					$value['title'] = isset( $value['name'] ) ? $value['name'] : '';
@@ -225,6 +243,9 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 				if ( ! isset( $value['suffix'] ) ) {
 					$value['suffix'] = '';
 				}
+				if ( ! isset( $value['value'] ) ) {
+					$value['value'] = self::get_option( $value['id'], $value['default'] );
+				}
 
 				// Custom attribute handling.
 				$custom_attributes = array();
@@ -249,12 +270,20 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 							echo '<h2>' . esc_html( $value['title'] ) . '</h2>';
 						}
 						if ( ! empty( $value['desc'] ) ) {
+							echo '<div id="' . esc_attr( sanitize_title( $value['id'] ) ) . '-description">';
 							echo wp_kses_post( wpautop( wptexturize( $value['desc'] ) ) );
+							echo '</div>';
 						}
 						echo '<table class="form-table">' . "\n\n";
 						if ( ! empty( $value['id'] ) ) {
 							do_action( 'woocommerce_settings_' . sanitize_title( $value['id'] ) );
 						}
+						break;
+
+					case 'info':
+						echo '<tr><th scope="row" class="titledesc"/><td style="' . esc_attr( $value['css'] ) . '">';
+						echo wp_kses_post( wpautop( wptexturize( $value['text'] ) ) );
+						echo '</td></tr>';
 						break;
 
 					// Section Ends.
@@ -270,19 +299,26 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 
 					// Standard text inputs and subtypes like 'number'.
 					case 'text':
-					case 'email':
-					case 'number':
 					case 'password':
-						$option_value = self::get_option( $value['id'], $value['default'] );
+					case 'datetime':
+					case 'datetime-local':
+					case 'date':
+					case 'month':
+					case 'time':
+					case 'week':
+					case 'number':
+					case 'email':
+					case 'url':
+					case 'tel':
+						$option_value = $value['value'];
 
 						?><tr valign="top">
 							<th scope="row" class="titledesc">
-								<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
-								<?php echo $tooltip_html; // WPCS: XSS ok. ?>
+								<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?> <?php echo $tooltip_html; // WPCS: XSS ok. ?></label>
 							</th>
 							<td class="forminp forminp-<?php echo esc_attr( sanitize_title( $value['type'] ) ); ?>">
 								<input
-									name="<?php echo esc_attr( $value['id'] ); ?>"
+									name="<?php echo esc_attr( $value['field_name'] ); ?>"
 									id="<?php echo esc_attr( $value['id'] ); ?>"
 									type="<?php echo esc_attr( $value['type'] ); ?>"
 									style="<?php echo esc_attr( $value['css'] ); ?>"
@@ -298,18 +334,17 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 
 					// Color picker.
 					case 'color':
-						$option_value = self::get_option( $value['id'], $value['default'] );
+						$option_value = $value['value'];
 
 						?>
 						<tr valign="top">
 							<th scope="row" class="titledesc">
-								<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
-								<?php echo $tooltip_html; // WPCS: XSS ok. ?>
+								<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?> <?php echo $tooltip_html; // WPCS: XSS ok. ?></label>
 							</th>
 							<td class="forminp forminp-<?php echo esc_attr( sanitize_title( $value['type'] ) ); ?>">&lrm;
-								<span class="colorpickpreview" style="background: <?php echo esc_attr( $option_value ); ?>"></span>
+								<span class="colorpickpreview" style="background: <?php echo esc_attr( $option_value ); ?>">&nbsp;</span>
 								<input
-									name="<?php echo esc_attr( $value['id'] ); ?>"
+									name="<?php echo esc_attr( $value['field_name'] ); ?>"
 									id="<?php echo esc_attr( $value['id'] ); ?>"
 									type="text"
 									dir="ltr"
@@ -327,19 +362,18 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 
 					// Textarea.
 					case 'textarea':
-						$option_value = self::get_option( $value['id'], $value['default'] );
+						$option_value = $value['value'];
 
 						?>
 						<tr valign="top">
 							<th scope="row" class="titledesc">
-								<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
-								<?php echo $tooltip_html; // WPCS: XSS ok. ?>
+								<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?> <?php echo $tooltip_html; // WPCS: XSS ok. ?></label>
 							</th>
 							<td class="forminp forminp-<?php echo esc_attr( sanitize_title( $value['type'] ) ); ?>">
 								<?php echo $description; // WPCS: XSS ok. ?>
 
 								<textarea
-									name="<?php echo esc_attr( $value['id'] ); ?>"
+									name="<?php echo esc_attr( $value['field_name'] ); ?>"
 									id="<?php echo esc_attr( $value['id'] ); ?>"
 									style="<?php echo esc_attr( $value['css'] ); ?>"
 									class="<?php echo esc_attr( $value['class'] ); ?>"
@@ -354,17 +388,16 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 					// Select boxes.
 					case 'select':
 					case 'multiselect':
-						$option_value = self::get_option( $value['id'], $value['default'] );
+						$option_value = $value['value'];
 
 						?>
 						<tr valign="top">
 							<th scope="row" class="titledesc">
-								<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
-								<?php echo $tooltip_html; // WPCS: XSS ok. ?>
+								<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?> <?php echo $tooltip_html; // WPCS: XSS ok. ?></label>
 							</th>
 							<td class="forminp forminp-<?php echo esc_attr( sanitize_title( $value['type'] ) ); ?>">
 								<select
-									name="<?php echo esc_attr( $value['id'] ); ?><?php echo ( 'multiselect' === $value['type'] ) ? '[]' : ''; ?>"
+									name="<?php echo esc_attr( $value['field_name'] ); ?><?php echo ( 'multiselect' === $value['type'] ) ? '[]' : ''; ?>"
 									id="<?php echo esc_attr( $value['id'] ); ?>"
 									style="<?php echo esc_attr( $value['css'] ); ?>"
 									class="<?php echo esc_attr( $value['class'] ); ?>"
@@ -383,9 +416,8 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 												selected( $option_value, (string) $key );
 											}
 
-										?>
-										>
-										<?php echo esc_html( $val ); ?></option>
+											?>
+										><?php echo esc_html( $val ); ?></option>
 										<?php
 									}
 									?>
@@ -397,26 +429,32 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 
 					// Radio inputs.
 					case 'radio':
-						$option_value = self::get_option( $value['id'], $value['default'] );
+						$option_value     = $value['value'];
+						$disabled_values  = $value['disabled'] ?? array();
+						$show_desc_at_end = $value['desc_at_end'] ?? false;
 
 						?>
 						<tr valign="top">
 							<th scope="row" class="titledesc">
-								<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
-								<?php echo $tooltip_html; // WPCS: XSS ok. ?>
+								<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?> <?php echo $tooltip_html; // WPCS: XSS ok. ?></label>
 							</th>
 							<td class="forminp forminp-<?php echo esc_attr( sanitize_title( $value['type'] ) ); ?>">
 								<fieldset>
-									<?php echo $description; // WPCS: XSS ok. ?>
+									<?php
+									if ( ! $show_desc_at_end ) {
+										echo wp_kses_post( $description );
+									}
+									?>
 									<ul>
 									<?php
 									foreach ( $value['options'] as $key => $val ) {
 										?>
 										<li>
 											<label><input
-												name="<?php echo esc_attr( $value['id'] ); ?>"
+												name="<?php echo esc_attr( $value['field_name'] ); ?>"
 												value="<?php echo esc_attr( $key ); ?>"
 												type="radio"
+												<?php if( in_array( $key, $disabled_values ) ) { echo 'disabled'; } ?>
 												style="<?php echo esc_attr( $value['css'] ); ?>"
 												class="<?php echo esc_attr( $value['class'] ); ?>"
 												<?php echo implode( ' ', $custom_attributes ); // WPCS: XSS ok. ?>
@@ -424,6 +462,9 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 												/> <?php echo esc_html( $val ); ?></label>
 										</li>
 										<?php
+									}
+									if ( $show_desc_at_end ) {
+										echo wp_kses_post( "<p class='description description-thin'>{$description}</p>" );
 									}
 									?>
 									</ul>
@@ -435,7 +476,7 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 
 					// Checkbox input.
 					case 'checkbox':
-						$option_value     = self::get_option( $value['id'], $value['default'] );
+						$option_value     = $value['value'];
 						$visibility_class = array();
 
 						if ( ! isset( $value['hide_if_checked'] ) ) {
@@ -454,11 +495,18 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 							$visibility_class[] = 'show_options_if_checked';
 						}
 
+						$must_disable = $value['disabled'] ?? false;
+
 						if ( ! isset( $value['checkboxgroup'] ) || 'start' === $value['checkboxgroup'] ) {
+							$has_tooltip             = isset( $value['tooltip'] ) && '' !== $value['tooltip'];
+							$tooltip_container_class = $has_tooltip ? 'with-tooltip' : '';
 							?>
 								<tr valign="top" class="<?php echo esc_attr( implode( ' ', $visibility_class ) ); ?>">
 									<th scope="row" class="titledesc"><?php echo esc_html( $value['title'] ); ?></th>
-									<td class="forminp forminp-checkbox">
+									<td class="forminp forminp-checkbox <?php echo esc_html( $tooltip_container_class ); ?>">
+										<?php if ( $has_tooltip ) : ?>
+											<span class="help-tooltip"><?php echo wc_help_tip( esc_html( $value['tooltip'] ) ); ?></span>
+										<?php endif; ?>
 										<fieldset>
 							<?php
 						} else {
@@ -476,11 +524,13 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 						?>
 							<label for="<?php echo esc_attr( $value['id'] ); ?>">
 								<input
-									name="<?php echo esc_attr( $value['id'] ); ?>"
+									<?php echo $must_disable ? 'disabled' : ''; ?>
+									name="<?php echo esc_attr( $value['field_name'] ); ?>"
 									id="<?php echo esc_attr( $value['id'] ); ?>"
 									type="checkbox"
 									class="<?php echo esc_attr( isset( $value['class'] ) ? $value['class'] : '' ); ?>"
 									value="1"
+									<?php disabled( $value['disabled'] ?? false ); ?>
 									<?php checked( $option_value, 'yes' ); ?>
 									<?php echo implode( ' ', $custom_attributes ); // WPCS: XSS ok. ?>
 								/> <?php echo $description; // WPCS: XSS ok. ?>
@@ -488,7 +538,7 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 						<?php
 
 						if ( ! isset( $value['checkboxgroup'] ) || 'end' === $value['checkboxgroup'] ) {
-										?>
+							?>
 										</fieldset>
 									</td>
 								</tr>
@@ -511,18 +561,20 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 						$disabled_message = '';
 
 						if ( has_filter( 'woocommerce_get_image_size_' . $image_size ) ) {
-							$disabled_attr = 'disabled="disabled"';
+							$disabled_attr    = 'disabled="disabled"';
 							$disabled_message = '<p><small>' . esc_html__( 'The settings of this image size have been disabled because its values are being overwritten by a filter.', 'woocommerce' ) . '</small></p>';
 						}
 
 						?>
 						<tr valign="top">
-							<th scope="row" class="titledesc"><?php echo esc_html( $value['title'] ); ?> <?php echo $tooltip_html . $disabled_message; // WPCS: XSS ok. ?></th>
+							<th scope="row" class="titledesc">
+							<label><?php echo esc_html( $value['title'] ); ?> <?php echo $tooltip_html . $disabled_message; // WPCS: XSS ok. ?></label>
+						</th>
 							<td class="forminp image_width_settings">
 
-								<input name="<?php echo esc_attr( $value['id'] ); ?>[width]" <?php echo $disabled_attr; // WPCS: XSS ok. ?> id="<?php echo esc_attr( $value['id'] ); ?>-width" type="text" size="3" value="<?php echo esc_attr( $width ); ?>" /> &times; <input name="<?php echo esc_attr( $value['id'] ); ?>[height]" <?php echo $disabled_attr; // WPCS: XSS ok. ?> id="<?php echo esc_attr( $value['id'] ); ?>-height" type="text" size="3" value="<?php echo esc_attr( $height ); ?>" />px
+								<input name="<?php echo esc_attr( $value['field_name'] ); ?>[width]" <?php echo $disabled_attr; // WPCS: XSS ok. ?> id="<?php echo esc_attr( $value['id'] ); ?>-width" type="text" size="3" value="<?php echo esc_attr( $width ); ?>" /> &times; <input name="<?php echo esc_attr( $value['id'] ); ?>[height]" <?php echo $disabled_attr; // WPCS: XSS ok. ?> id="<?php echo esc_attr( $value['id'] ); ?>-height" type="text" size="3" value="<?php echo esc_attr( $height ); ?>" />px
 
-								<label><input name="<?php echo esc_attr( $value['id'] ); ?>[crop]" <?php echo $disabled_attr; // WPCS: XSS ok. ?> id="<?php echo esc_attr( $value['id'] ); ?>-crop" type="checkbox" value="1" <?php checked( 1, $crop ); ?> /> <?php esc_html_e( 'Hard crop?', 'woocommerce' ); ?></label>
+								<label><input name="<?php echo esc_attr( $value['field_name'] ); ?>[crop]" <?php echo $disabled_attr; // WPCS: XSS ok. ?> id="<?php echo esc_attr( $value['id'] ); ?>-crop" type="checkbox" value="1" <?php checked( 1, $crop ); ?> /> <?php esc_html_e( 'Hard crop?', 'woocommerce' ); ?></label>
 
 								</td>
 						</tr>
@@ -532,14 +584,15 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 					// Single page selects.
 					case 'single_select_page':
 						$args = array(
-							'name'             => $value['id'],
+							'name'             => $value['field_name'],
 							'id'               => $value['id'],
 							'sort_column'      => 'menu_order',
 							'sort_order'       => 'ASC',
 							'show_option_none' => ' ',
 							'class'            => $value['class'],
 							'echo'             => false,
-							'selected'         => absint( self::get_option( $value['id'] ) ),
+							'selected'         => absint( $value['value'] ),
+							'post_status'      => 'publish,private,draft',
 						);
 
 						if ( isset( $value['args'] ) ) {
@@ -548,7 +601,9 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 
 						?>
 						<tr valign="top" class="single_select_page">
-							<th scope="row" class="titledesc"><?php echo esc_html( $value['title'] ); ?> <?php echo $tooltip_html; // WPCS: XSS ok. ?></th>
+							<th scope="row" class="titledesc">
+								<label><?php echo esc_html( $value['title'] ); ?> <?php echo $tooltip_html; // WPCS: XSS ok. ?></label>
+							</th>
 							<td class="forminp">
 								<?php echo str_replace( ' id=', " data-placeholder='" . esc_attr__( 'Select a page&hellip;', 'woocommerce' ) . "' style='" . $value['css'] . "' class='" . $value['class'] . "' id=", wp_dropdown_pages( $args ) ); // WPCS: XSS ok. ?> <?php echo $description; // WPCS: XSS ok. ?>
 							</td>
@@ -556,9 +611,50 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 						<?php
 						break;
 
+					case 'single_select_page_with_search':
+						$option_value = $value['value'];
+						$page         = get_post( $option_value );
+
+						if ( ! is_null( $page ) ) {
+							$page                = get_post( $option_value );
+							$option_display_name = sprintf(
+								/* translators: 1: page name 2: page ID */
+								__( '%1$s (ID: %2$s)', 'woocommerce' ),
+								$page->post_title,
+								$option_value
+							);
+						}
+						?>
+						<tr valign="top" class="single_select_page">
+							<th scope="row" class="titledesc">
+								<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?> <?php echo $tooltip_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></label>
+							</th>
+							<td class="forminp forminp-<?php echo esc_attr( sanitize_title( $value['type'] ) ); ?>">
+								<select
+									name="<?php echo esc_attr( $value['field_name'] ); ?>"
+									id="<?php echo esc_attr( $value['id'] ); ?>"
+									style="<?php echo esc_attr( $value['css'] ); ?>"
+									class="<?php echo esc_attr( $value['class'] ); ?>"
+									<?php echo implode( ' ', $custom_attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+									data-placeholder="<?php esc_attr_e( 'Search for a page&hellip;', 'woocommerce' ); ?>"
+									data-allow_clear="true"
+									data-exclude="<?php echo wc_esc_json( wp_json_encode( $value['args']['exclude'] ) ); ?>"
+									>
+									<option value=""></option>
+									<?php if ( ! is_null( $page ) ) { ?>
+										<option value="<?php echo esc_attr( $option_value ); ?>" selected="selected">
+										<?php echo wp_strip_all_tags( $option_display_name ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+										</option>
+									<?php } ?>
+								</select> <?php echo $description; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+							</td>
+						</tr>
+						<?php
+						break;
+
 					// Single country selects.
 					case 'single_select_country':
-						$country_setting = (string) self::get_option( $value['id'] );
+						$country_setting = (string) $value['value'];
 
 						if ( strstr( $country_setting, ':' ) ) {
 							$country_setting = explode( ':', $country_setting );
@@ -571,10 +667,9 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 						?>
 						<tr valign="top">
 							<th scope="row" class="titledesc">
-								<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
-								<?php echo $tooltip_html; // WPCS: XSS ok. ?>
+								<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?> <?php echo $tooltip_html; // WPCS: XSS ok. ?></label>
 							</th>
-							<td class="forminp"><select name="<?php echo esc_attr( $value['id'] ); ?>" style="<?php echo esc_attr( $value['css'] ); ?>" data-placeholder="<?php esc_attr_e( 'Choose a country&hellip;', 'woocommerce' ); ?>" aria-label="<?php esc_attr_e( 'Country', 'woocommerce' ); ?>" class="wc-enhanced-select">
+							<td class="forminp"><select name="<?php echo esc_attr( $value['field_name'] ); ?>" style="<?php echo esc_attr( $value['css'] ); ?>" data-placeholder="<?php esc_attr_e( 'Choose a country / region&hellip;', 'woocommerce' ); ?>" aria-label="<?php esc_attr_e( 'Country / Region', 'woocommerce' ); ?>" class="wc-enhanced-select">
 								<?php WC()->countries->country_dropdown_options( $country, $state ); ?>
 							</select> <?php echo $description; // WPCS: XSS ok. ?>
 							</td>
@@ -584,7 +679,7 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 
 					// Country multiselects.
 					case 'multi_select_countries':
-						$selections = (array) self::get_option( $value['id'] );
+						$selections = (array) $value['value'];
 
 						if ( ! empty( $value['options'] ) ) {
 							$countries = $value['options'];
@@ -596,19 +691,57 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 						?>
 						<tr valign="top">
 							<th scope="row" class="titledesc">
-								<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
-								<?php echo $tooltip_html; // WPCS: XSS ok. ?>
+								<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?> <?php echo $tooltip_html; // WPCS: XSS ok. ?></label>
 							</th>
 							<td class="forminp">
-								<select multiple="multiple" name="<?php echo esc_attr( $value['id'] ); ?>[]" style="width:350px" data-placeholder="<?php esc_attr_e( 'Choose countries&hellip;', 'woocommerce' ); ?>" aria-label="<?php esc_attr_e( 'Country', 'woocommerce' ); ?>" class="wc-enhanced-select">
+								<select multiple="multiple" name="<?php echo esc_attr( $value['field_name'] ); ?>[]" style="width:350px" data-placeholder="<?php esc_attr_e( 'Choose countries / regions&hellip;', 'woocommerce' ); ?>" aria-label="<?php esc_attr_e( 'Country / Region', 'woocommerce' ); ?>" class="wc-enhanced-select">
 									<?php
 									if ( ! empty( $countries ) ) {
 										foreach ( $countries as $key => $val ) {
-											echo '<option value="' . esc_attr( $key ) . '" ' . selected( in_array( $key, $selections, true ), true, false ) . '>' . esc_html( $val ) . '</option>';
+											echo '<option value="' . esc_attr( $key ) . '"' . wc_selected( $key, $selections ) . '>' . esc_html( $val ) . '</option>'; // WPCS: XSS ok.
 										}
 									}
 									?>
 								</select> <?php echo ( $description ) ? $description : ''; // WPCS: XSS ok. ?> <br /><a class="select_all button" href="#"><?php esc_html_e( 'Select all', 'woocommerce' ); ?></a> <a class="select_none button" href="#"><?php esc_html_e( 'Select none', 'woocommerce' ); ?></a>
+							</td>
+						</tr>
+						<?php
+						break;
+
+					// Days/months/years selector.
+					case 'relative_date_selector':
+						$periods      = array(
+							'days'   => __( 'Day(s)', 'woocommerce' ),
+							'weeks'  => __( 'Week(s)', 'woocommerce' ),
+							'months' => __( 'Month(s)', 'woocommerce' ),
+							'years'  => __( 'Year(s)', 'woocommerce' ),
+						);
+						$option_value = wc_parse_relative_date_option( $value['value'] );
+						?>
+						<tr valign="top">
+							<th scope="row" class="titledesc">
+								<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?> <?php echo $tooltip_html; // WPCS: XSS ok. ?></label>
+							</th>
+							<td class="forminp">
+							<input
+									name="<?php echo esc_attr( $value['field_name'] ); ?>[number]"
+									id="<?php echo esc_attr( $value['id'] ); ?>"
+									type="number"
+									style="width: 80px;"
+									value="<?php echo esc_attr( $option_value['number'] ); ?>"
+									class="<?php echo esc_attr( $value['class'] ); ?>"
+									placeholder="<?php echo esc_attr( $value['placeholder'] ); ?>"
+									step="1"
+									min="1"
+									<?php echo implode( ' ', $custom_attributes ); // WPCS: XSS ok. ?>
+								/>&nbsp;
+								<select name="<?php echo esc_attr( $value['field_name'] ); ?>[unit]" style="width: auto;">
+									<?php
+									foreach ( $periods as $value => $label ) {
+										echo '<option value="' . esc_attr( $value ) . '"' . selected( $option_value['unit'], $value, false ) . '>' . esc_html( $label ) . '</option>';
+									}
+									?>
+								</select> <?php echo ( $description ) ? $description : ''; // WPCS: XSS ok. ?>
 							</td>
 						</tr>
 						<?php
@@ -640,7 +773,7 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 				$description  = $value['desc'];
 				$tooltip_html = $value['desc_tip'];
 			} elseif ( ! empty( $value['desc'] ) ) {
-				$description  = $value['desc'];
+				$description = $value['desc'];
 			}
 
 			if ( $description && in_array( $value['type'], array( 'textarea', 'radio' ), true ) ) {
@@ -648,7 +781,7 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 			} elseif ( $description && in_array( $value['type'], array( 'checkbox' ), true ) ) {
 				$description = wp_kses_post( $description );
 			} elseif ( $description ) {
-				$description = '<span class="description">' . wp_kses_post( $description ) . '</span>';
+				$description = '<p class="description">' . wp_kses_post( $description ) . '</p>';
 			}
 
 			if ( $tooltip_html && in_array( $value['type'], array( 'checkbox' ), true ) ) {
@@ -666,7 +799,7 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 		/**
 		 * Save admin fields.
 		 *
-		 * Loops though the woocommerce options array and outputs each field.
+		 * Loops through the woocommerce options array and outputs each field.
 		 *
 		 * @param array $options Options array to output.
 		 * @param array $data    Optional. Data to use for saving. Defaults to $_POST.
@@ -681,24 +814,26 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 			}
 
 			// Options to update will be stored here and saved later.
-			$update_options = array();
+			$update_options   = array();
+			$autoload_options = array();
 
 			// Loop options and get values to save.
 			foreach ( $options as $option ) {
-				if ( ! isset( $option['id'] ) || ! isset( $option['type'] ) ) {
+				if ( ! isset( $option['id'] ) || ! isset( $option['type'] ) || ( isset( $option['is_option'] ) && false === $option['is_option'] ) ) {
 					continue;
 				}
 
+				$option_name = $option['field_name'] ?? $option['id'];
+
 				// Get posted value.
-				if ( strstr( $option['id'], '[' ) ) {
-					parse_str( $option['id'], $option_name_array );
+				if ( strstr( $option_name, '[' ) ) {
+					parse_str( $option_name, $option_name_array );
 					$option_name  = current( array_keys( $option_name_array ) );
 					$setting_name = key( $option_name_array[ $option_name ] );
 					$raw_value    = isset( $data[ $option_name ][ $setting_name ] ) ? wp_unslash( $data[ $option_name ][ $setting_name ] ) : null;
 				} else {
-					$option_name  = $option['id'];
 					$setting_name = '';
-					$raw_value    = isset( $data[ $option['id'] ] ) ? wp_unslash( $data[ $option['id'] ] ) : null;
+					$raw_value    = isset( $data[ $option_name ] ) ? wp_unslash( $data[ $option_name ] ) : null;
 				}
 
 				// Format the value based on option type.
@@ -733,6 +868,9 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 						}
 						$default = ( empty( $option['default'] ) ? $allowed_values[0] : $option['default'] );
 						$value   = in_array( $raw_value, $allowed_values, true ) ? $raw_value : $default;
+						break;
+					case 'relative_date_selector':
+						$value = wc_parse_relative_date_option( $raw_value );
 						break;
 					default:
 						$value = wc_clean( $raw_value );
@@ -781,6 +919,8 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 					$update_options[ $option_name ] = $value;
 				}
 
+				$autoload_options[ $option_name ] = isset( $option['autoload'] ) ? (bool) $option['autoload'] : true;
+
 				/**
 				 * Fire an action before saved.
 				 *
@@ -791,7 +931,7 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 
 			// Save all options in our array.
 			foreach ( $update_options as $name => $value ) {
-				update_option( $name, $value );
+				update_option( $name, $value, $autoload_options[ $name ] ? 'yes' : 'no' );
 			}
 
 			return true;
@@ -803,25 +943,29 @@ if ( ! class_exists( 'WC_Admin_Settings', false ) ) :
 		 * If using force or x-sendfile, this ensures the .htaccess is in place.
 		 */
 		public static function check_download_folder_protection() {
-			$upload_dir      = wp_upload_dir();
-			$downloads_url   = $upload_dir['basedir'] . '/woocommerce_uploads';
+			$upload_dir      = wp_get_upload_dir();
+			$downloads_path  = $upload_dir['basedir'] . '/woocommerce_uploads';
 			$download_method = get_option( 'woocommerce_file_download_method' );
+			$file_path       = $downloads_path . '/.htaccess';
+			$file_content    = 'redirect' === $download_method ? 'Options -Indexes' : 'deny from all';
+			$create          = false;
 
-			if ( 'redirect' === $download_method ) {
-
-				// Redirect method - don't protect.
-				if ( file_exists( $downloads_url . '/.htaccess' ) ) {
-					unlink( $downloads_url . '/.htaccess' ); // @codingStandardsIgnoreLine
-				}
+			if ( wp_mkdir_p( $downloads_path ) && ! file_exists( $file_path ) ) {
+				$create = true;
 			} else {
+				$current_content = @file_get_contents( $file_path ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 
-				// Force method - protect, add rules to the htaccess file.
-				if ( ! file_exists( $downloads_url . '/.htaccess' ) ) {
-					$file_handle = @fopen( $downloads_url . '/.htaccess', 'w' ); // @codingStandardsIgnoreLine
-					if ( $file_handle ) {
-						fwrite( $file_handle, 'deny from all' ); // @codingStandardsIgnoreLine
-						fclose( $file_handle ); // @codingStandardsIgnoreLine
-					}
+				if ( $current_content !== $file_content ) {
+					unlink( $file_path );
+					$create = true;
+				}
+			}
+
+			if ( $create ) {
+				$file_handle = @fopen( $file_path, 'wb' ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_system_read_fopen
+				if ( $file_handle ) {
+					fwrite( $file_handle, $file_content ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fwrite
+					fclose( $file_handle ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fclose
 				}
 			}
 		}

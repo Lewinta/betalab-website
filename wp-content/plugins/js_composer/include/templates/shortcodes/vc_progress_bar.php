@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @var $css
  * @var $css_animation
  * Shortcode class
- * @var $this WPBakeryShortCode_VC_Progress_Bar
+ * @var WPBakeryShortCode_Vc_Progress_Bar $this
  */
 $title = $values = $units = $bgcolor = $css = $custombgcolor = $customtxtcolor = $options = $el_class = $el_id = $css_animation = '';
 $output = '';
@@ -26,16 +26,16 @@ $atts = vc_map_get_attributes( $this->getShortcode(), $atts );
 $atts = $this->convertAttributesToNewProgressBar( $atts );
 
 extract( $atts );
-wp_enqueue_script( 'waypoints' );
+wp_enqueue_script( 'vc_waypoints' );
 
 $el_class = $this->getExtraClass( $el_class ) . $this->getCSSAnimation( $css_animation );
 
 $bar_options = array();
 $options = explode( ',', $options );
-if ( in_array( 'animated', $options ) ) {
+if ( in_array( 'animated', $options, true ) ) {
 	$bar_options[] = 'animated';
 }
-if ( in_array( 'striped', $options ) ) {
+if ( in_array( 'striped', $options, true ) ) {
 	$bar_options[] = 'striped';
 }
 
@@ -61,7 +61,10 @@ if ( ! empty( $el_id ) ) {
 }
 $output = '<div class="' . esc_attr( $css_class ) . '" ' . implode( ' ', $wrapper_attributes ) . '>';
 
-$output .= wpb_widget_title( array( 'title' => $title, 'extraclass' => 'wpb_progress_bar_heading' ) );
+$output .= wpb_widget_title( array(
+	'title' => $title,
+	'extraclass' => 'wpb_progress_bar_heading',
+) );
 
 $values = (array) vc_param_group_parse_atts( $values );
 $max_value = 0.0;
@@ -86,11 +89,11 @@ foreach ( $values as $data ) {
 }
 
 foreach ( $graph_lines_data as $line ) {
-	$unit = ( '' !== $units ) ? ' <span class="vc_label_units">' . $line['value'] . $units . '</span>' : '';
+	$unit = ( '' !== $units ) ? ' <span class="vc_label_units">' . esc_attr( $line['value'] ) . $units . '</span>' : '';
 	$output .= '<div class="vc_general vc_single_bar' . ( ( isset( $line['color'] ) && 'custom' !== $line['color'] ) ?
-			' vc_progress-bar-color-' . $line['color'] : '' )
+			' vc_progress-bar-color-' . esc_attr( $line['color'] ) : '' )
 		. '">';
-	$output .= '<small class="vc_label"' . $line['txtcolor'] . '>' . $line['label'] . $unit . '</small>';
+	$output .= '<small class="vc_label"' . esc_attr( $line['txtcolor'] ) . '>' . wp_kses_post( $line['label'] )  . $unit . '</small>';
 	if ( $max_value > 100.00 ) {
 		$percentage_value = (float) $line['value'] > 0 && $max_value > 100.00 ? round( (float) $line['value'] / $max_value * 100, 4 ) : 0;
 	} else {
@@ -102,4 +105,4 @@ foreach ( $graph_lines_data as $line ) {
 
 $output .= '</div>';
 
-echo $output;
+return $output;

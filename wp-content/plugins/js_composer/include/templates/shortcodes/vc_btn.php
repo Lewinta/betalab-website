@@ -37,7 +37,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @var $gradient_custom_color_2 ;
  * @var $gradient_text_color ;
  * Shortcode class
- * @var $this WPBakeryShortCode_VC_Btn
+ * @var WPBakeryShortCode_Vc_Btn $this
  */
 $style = $shape = $color = $size = $custom_background = $custom_text = $align = $link = $title = $button_block = $el_class = $outline_custom_color = $outline_custom_hover_background = $outline_custom_hover_text = $add_icon = $i_align = $i_type = $i_icon_entypo = $i_icon_fontawesome = $i_icon_linecons = $i_icon_pixelicons = $i_icon_typicons = $css = $css_animation = '';
 $gradient_color_1 = $gradient_color_2 = $gradient_custom_color_1 = $gradient_custom_color_2 = $gradient_text_color = '';
@@ -50,7 +50,8 @@ $attributes = array();
 
 $atts = vc_map_get_attributes( $this->getShortcode(), $atts );
 extract( $atts );
-//parse link
+// parse link
+$link = trim( $link );
 $link = ( '||' === $link ) ? '' : $link;
 $link = vc_build_link( $link );
 $use_link = false;
@@ -113,7 +114,7 @@ if ( 'true' === $add_icon ) {
 		$button_html .= ' ' . $icon_html;
 	}
 }
-
+$output = '';
 if ( 'custom' === $style ) {
 	if ( $custom_background ) {
 		$styles[] = vc_get_css_color( 'background-color', $custom_background );
@@ -130,18 +131,18 @@ if ( 'custom' === $style ) {
 	if ( $outline_custom_color ) {
 		$styles[] = vc_get_css_color( 'border-color', $outline_custom_color );
 		$styles[] = vc_get_css_color( 'color', $outline_custom_color );
-		$attributes[] = 'onmouseleave="this.style.borderColor=\'' . $outline_custom_color . '\'; this.style.backgroundColor=\'transparent\'; this.style.color=\'' . $outline_custom_color . '\'"';
+		$attributes[] = 'onmouseleave="this.style.borderColor=\'' . esc_attr( $outline_custom_color ) . '\'; this.style.backgroundColor=\'transparent\'; this.style.color=\'' . esc_attr( $outline_custom_color ) . '\'"';
 	} else {
 		$attributes[] = 'onmouseleave="this.style.borderColor=\'\'; this.style.backgroundColor=\'transparent\'; this.style.color=\'\'"';
 	}
 
 	$onmouseenter = array();
 	if ( $outline_custom_hover_background ) {
-		$onmouseenter[] = 'this.style.borderColor=\'' . $outline_custom_hover_background . '\';';
-		$onmouseenter[] = 'this.style.backgroundColor=\'' . $outline_custom_hover_background . '\';';
+		$onmouseenter[] = 'this.style.borderColor=\'' . esc_attr( $outline_custom_hover_background ) . '\';';
+		$onmouseenter[] = 'this.style.backgroundColor=\'' . esc_attr( $outline_custom_hover_background ) . '\';';
 	}
 	if ( $outline_custom_hover_text ) {
-		$onmouseenter[] = 'this.style.color=\'' . $outline_custom_hover_text . '\';';
+		$onmouseenter[] = 'this.style.color=\'' . esc_attr( $outline_custom_hover_text ) . '\';';
 	}
 	if ( $onmouseenter ) {
 		$attributes[] = 'onmouseenter="' . implode( ' ', $onmouseenter ) . '"';
@@ -188,17 +189,18 @@ if ( 'custom' === $style ) {
 	$gradient_css_hover[] = 'background-position: 100% 0';
 
 	$uid = uniqid();
-	echo '<style type="text/css">.vc_btn3-style-' . $style . '.vc_btn-gradient-btn-' . $uid . ':hover{' . implode( ';', $gradient_css_hover ) . ';' . '}</style>';
-	echo '<style type="text/css">.vc_btn3-style-' . $style . '.vc_btn-gradient-btn-' . $uid . '{' . implode( ';', $gradient_css ) . ';' . '}</style>';
+	$first_tag = 'style';
+	$output .= '<' . $first_tag . '>.vc_btn3-style-' . esc_attr( $style ) . '.vc_btn-gradient-btn-' . esc_attr( $uid ) . ':hover{' . esc_attr( implode( ';', $gradient_css_hover ) ) . ';' . '}</' . $first_tag . '>';
+	$output .= '<' . $first_tag . '>.vc_btn3-style-' . esc_attr( $style ) . '.vc_btn-gradient-btn-' . esc_attr( $uid ) . '{' . esc_attr( implode( ';', $gradient_css ) ) . ';' . '}</' . $first_tag . '>';
 	$button_classes[] = 'vc_btn-gradient-btn-' . $uid;
-	$attributes[] = 'data-vc-gradient-1="' . $gradient_color_1 . '"';
-	$attributes[] = 'data-vc-gradient-2="' . $gradient_color_2 . '"';
+	$attributes[] = 'data-vc-gradient-1="' . esc_attr( $gradient_color_1 ) . '"';
+	$attributes[] = 'data-vc-gradient-2="' . esc_attr( $gradient_color_2 ) . '"';
 } else {
 	$button_classes[] = 'vc_btn3-color-' . $color;
 }
 
 if ( $styles ) {
-	$attributes[] = 'style="' . implode( ' ', $styles ) . '"';
+	$attributes[] = 'style="' . esc_attr( implode( ' ', $styles ) ) . '"';
 }
 
 $class_to_filter = implode( ' ', array_filter( $wrapper_classes ) );
@@ -206,12 +208,12 @@ $class_to_filter .= vc_shortcode_custom_css_class( $css, ' ' );
 $css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, $this->settings['base'], $atts );
 
 if ( $button_classes ) {
-	$button_classes = esc_attr( apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, implode( ' ', array_filter( $button_classes ) ), $this->settings['base'], $atts ) );
-	$attributes[] = 'class="' . trim( $button_classes ) . '"';
+	$button_classes = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, implode( ' ', array_filter( $button_classes ) ), $this->settings['base'], $atts );
+	$attributes[] = 'class="' . trim( esc_attr( $button_classes ) ) . '"';
 }
 
 if ( $use_link ) {
-	$attributes[] = 'href="' . trim( $a_href ) . '"';
+	$attributes[] = 'href="' . esc_url( trim( $a_href ) ) . '"';
 	$attributes[] = 'title="' . esc_attr( trim( $a_title ) ) . '"';
 	if ( ! empty( $a_target ) ) {
 		$attributes[] = 'target="' . esc_attr( trim( $a_target ) ) . '"';
@@ -226,16 +228,15 @@ if ( ! empty( $custom_onclick ) && $custom_onclick_code ) {
 }
 
 $attributes = implode( ' ', $attributes );
-$wrapper_attributes = array();
-if ( ! empty( $el_id ) ) {
-	$wrapper_attributes[] = 'id="' . esc_attr( $el_id ) . '"';
+
+$output .= '<div class="' . esc_attr( trim( $css_class ) ) . '"' . ( ! empty( $el_id ) ? ' id="' . esc_attr( $el_id ) . '"' : '' ) . ' >';
+
+if ( $use_link ) {
+	$output .= '<a ' . $attributes . '>' . $button_html . '</a>';
+} else {
+	$output .= '<button ' . $attributes . '>' . $button_html . '</button>';
 }
-?>
-<div class="<?php echo trim( esc_attr( $css_class ) ) ?>" <?php echo implode( ' ', $wrapper_attributes ); ?>>
-	<?php
-	if ( $use_link ) {
-		echo '<a ' . $attributes . '>' . $button_html . '</a>';
-	} else {
-		echo '<button ' . $attributes . '>' . $button_html . '</button>';
-	}
-	?></div>
+
+$output .= '</div>';
+
+return $output;

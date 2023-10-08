@@ -2,7 +2,7 @@
 /**
  * Admin View: Page - Status Database Logs
  *
- * @package WooCommerce/Admin/Logs
+ * @package WooCommerce\Admin\Logs
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -21,11 +21,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php wp_nonce_field( 'woocommerce-status-logs' ); ?>
 </form>
 <?php
-wc_enqueue_js( "
-	jQuery( '#flush-logs' ).click( function() {
+wc_enqueue_js(
+	"jQuery( '#flush-logs' ).on( 'click', function() {
 		if ( window.confirm('" . esc_js( __( 'Are you sure you want to clear all logs from the database?', 'woocommerce' ) ) . "') ) {
 			return true;
 		}
 		return false;
-	});
-" );
+	});"
+);

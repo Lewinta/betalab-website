@@ -1,0 +1,26 @@
+2023-10-04T15:38:01+00:00 CRITICAL Out of memory (allocated 8388608) (tried to allocate 20480 bytes)
+
+2023-10-07T23:34:13+00:00 CRITICAL Uncaught ArgumentCountError: Too few arguments to function wp_nav_menu_remove_menu_item_has_children_class(), 1 passed in /var/www/html/wp-includes/class-wp-hook.php on line 310 and at least 2 expected in /var/www/html/wp-includes/nav-menu-template.php:659
+Stack trace:
+#0 /var/www/html/wp-includes/class-wp-hook.php(310): wp_nav_menu_remove_menu_item_has_children_class()
+#1 /var/www/html/wp-includes/plugin.php(205): WP_Hook->apply_filters()
+#2 /var/www/html/wp-content/themes/labora/framework/common/iva-generator.php(688): apply_filters()
+#3 /var/www/html/wp-includes/class-wp-walker.php(147): Labora_Custom_Menu_Walker->start_el()
+#4 /var/www/html/wp-includes/class-wp-walker.php(247): Walker->display_element()
+#5 /var/www/html/wp-includes/nav-menu-template.php(616): Walker->walk()
+#6 /var/www/html/wp-includes/nav-menu-template.php(236): walk_nav_menu_tree()
+#7 /var/www/html/wp-content/themes/labora/framework/common/iva-generator.php(20): wp_nav_menu()
+#8 /var/www/html/wp-content/themes/labora/framework/common/iv
+
+2023-10-07T23:34:14+00:00 CRITICAL Uncaught ArgumentCountError: Too few arguments to function wp_nav_menu_remove_menu_item_has_children_class(), 1 passed in /var/www/html/wp-includes/class-wp-hook.php on line 310 and at least 2 expected in /var/www/html/wp-includes/nav-menu-template.php:659
+Stack trace:
+#0 /var/www/html/wp-includes/class-wp-hook.php(310): wp_nav_menu_remove_menu_item_has_children_class()
+#1 /var/www/html/wp-includes/plugin.php(205): WP_Hook->apply_filters()
+#2 /var/www/html/wp-content/themes/labora/framework/common/iva-generator.php(688): apply_filters()
+#3 /var/www/html/wp-includes/class-wp-walker.php(147): Labora_Custom_Menu_Walker->start_el()
+#4 /var/www/html/wp-includes/class-wp-walker.php(247): Walker->display_element()
+#5 /var/www/html/wp-includes/nav-menu-template.php(616): Walker->walk()
+#6 /var/www/html/wp-includes/nav-menu-template.php(236): walk_nav_menu_tree()
+#7 /var/www/html/wp-content/themes/labora/framework/common/iva-generator.php(20): wp_nav_menu()
+#8 /var/www/html/wp-content/themes/labora/framework/common/iv
+

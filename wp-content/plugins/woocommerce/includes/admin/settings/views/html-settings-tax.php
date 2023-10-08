@@ -1,22 +1,30 @@
 <?php
+/**
+ * Admin view: Settings tax
+ *
+ * @package WooCommerce\Admin\Settings
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
 
 <div class="wc-tax-rates-search" id="rates-search">
-	<input type="search" class="wc-tax-rates-search-field" placeholder="<?php esc_attr_e( 'Search&hellip;', 'woocommerce' ); ?>" value="<?php if ( isset( $_GET['s'] ) ) { echo esc_attr( $_GET['s'] ); } ?>" />
+	<input type="search" class="wc-tax-rates-search-field" placeholder="<?php esc_attr_e( 'Search&hellip;', 'woocommerce' ); ?>" value="<?php echo isset( $_GET['s'] ) ? esc_attr( $_GET['s'] ) : ''; ?>" />
 </div>
 
 <div id="rates-pagination"></div>
 
-<h3><?php
+<h3>
+	<?php
 	/* translators: %s: tax rate */
 	printf(
 		__( '"%s" tax rates', 'woocommerce' ),
 		$current_class ? esc_html( $current_class ) : __( 'Standard', 'woocommerce' )
 	);
-?></h3>
+	?>
+</h3>
 
 <table class="wc_tax_rates wc_input_table widefat">
 	<thead>
@@ -48,6 +56,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</tr>
 	</tbody>
 </table>
+
+<div id="rates-bottom-pagination"></div>
 
 <script type="text/html" id="tmpl-wc-tax-table-row">
 	<tr class="tips" data-tip="<?php printf( esc_attr__( 'Tax rate ID: %s', 'woocommerce' ), '{{ data.tax_rate_id }}' ); ?>" data-id="{{ data.tax_rate_id }}">
@@ -98,13 +108,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 <script type="text/html" id="tmpl-wc-tax-table-pagination">
 	<div class="tablenav">
 		<div class="tablenav-pages">
-			<span class="displaying-num"><?php
+			<span class="displaying-num">
+				<?php
 				/* translators: %s: number */
 				printf(
 					__( '%s items', 'woocommerce' ), // %s will be a number eventually, but must be a string for now.
 					'{{ data.qty_rates }}'
 				);
-			?></span>
+				?>
+			</span>
 			<span class="pagination-links">
 
 				<a class="tablenav-pages-navspan" data-goto="1">

@@ -2,9 +2,7 @@
 /**
  * List tables: coupons.
  *
- * @author   WooCommerce
- * @category Admin
- * @package  WooCommerce/Admin
+ * @package  WooCommerce\Admin
  * @version  3.3.0
  */
 
@@ -17,7 +15,7 @@ if ( class_exists( 'WC_Admin_List_Table_Coupons', false ) ) {
 }
 
 if ( ! class_exists( 'WC_Admin_List_Table', false ) ) {
-	include_once( 'abstract-class-wc-admin-list-table.php' );
+	include_once __DIR__ . '/abstract-class-wc-admin-list-table.php';
 }
 
 /**
@@ -46,15 +44,15 @@ class WC_Admin_List_Table_Coupons extends WC_Admin_List_Table {
 	protected function render_blank_state() {
 		echo '<div class="woocommerce-BlankState">';
 		echo '<h2 class="woocommerce-BlankState-message">' . esc_html__( 'Coupons are a great way to offer discounts and rewards to your customers. They will appear here once created.', 'woocommerce' ) . '</h2>';
-		echo '<a class="woocommerce-BlankState-cta button-primary button" target="_blank" href="https://docs.woocommerce.com/document/coupon-management/?utm_source=blankslate&utm_medium=product&utm_content=couponsdoc&utm_campaign=woocommerceplugin">' . esc_html__( 'Learn more about coupons', 'woocommerce' ) . '</a>';
-		echo '<a class="woocommerce-BlankState-cta button-primary button" href="' . esc_url ( admin_url( 'post-new.php?post_type=shop_coupon' ) ) . '">' . esc_html__( 'Create your first coupon', 'woocommerce' ) . '</a>';
+		echo '<a class="woocommerce-BlankState-cta button-primary button" href="' . esc_url( admin_url( 'post-new.php?post_type=shop_coupon' ) ) . '">' . esc_html__( 'Create your first coupon', 'woocommerce' ) . '</a>';
+		echo '<a class="woocommerce-BlankState-cta button" target="_blank" href="https://docs.woocommerce.com/document/coupon-management/?utm_source=blankslate&utm_medium=product&utm_content=couponsdoc&utm_campaign=woocommerceplugin">' . esc_html__( 'Learn more about coupons', 'woocommerce' ) . '</a>';
 		echo '</div>';
 	}
 
 	/**
 	 * Define primary column.
 	 *
-	 * @return array
+	 * @return string
 	 */
 	protected function get_primary_column() {
 		return 'coupon_code';
@@ -101,12 +99,13 @@ class WC_Admin_List_Table_Coupons extends WC_Admin_List_Table {
 		global $the_coupon;
 
 		if ( empty( $this->object ) || $this->object->get_id() !== $post_id ) {
-			$this->object = $the_coupon = new WC_Coupon( $post_id );
+			$this->object = new WC_Coupon( $post_id );
+			$the_coupon   = $this->object;
 		}
 	}
 
 	/**
-	 * Render columm: coupon_code.
+	 * Render column: coupon_code.
 	 */
 	protected function render_coupon_code_column() {
 		global $post;
@@ -120,20 +119,20 @@ class WC_Admin_List_Table_Coupons extends WC_Admin_List_Table {
 	}
 
 	/**
-	 * Render columm: type.
+	 * Render column: type.
 	 */
 	protected function render_type_column() {
 		echo esc_html( wc_get_coupon_type( $this->object->get_discount_type() ) );
 	}
 
 	/**
-	 * Render columm: amount.
+	 * Render column: amount.
 	 */
 	protected function render_amount_column() {
 		echo esc_html( wc_format_localized_price( $this->object->get_amount() ) );
 	}
 	/**
-	 * Render columm: products.
+	 * Render column: products.
 	 */
 	protected function render_products_column() {
 		$product_ids = $this->object->get_product_ids();
@@ -146,7 +145,7 @@ class WC_Admin_List_Table_Coupons extends WC_Admin_List_Table {
 	}
 
 	/**
-	 * Render columm: usage_limit.
+	 * Render column: usage_limit.
 	 */
 	protected function render_usage_limit_column() {
 		$usage_limit = $this->object->get_usage_limit();
@@ -159,14 +158,14 @@ class WC_Admin_List_Table_Coupons extends WC_Admin_List_Table {
 	}
 
 	/**
-	 * Render columm: usage.
+	 * Render column: usage.
 	 */
 	protected function render_usage_column() {
 		$usage_count = $this->object->get_usage_count();
 		$usage_limit = $this->object->get_usage_limit();
 
-		/* translators: 1: count 2: limit */
 		printf(
+			/* translators: 1: count 2: limit */
 			__( '%1$s / %2$s', 'woocommerce' ),
 			esc_html( $usage_count ),
 			$usage_limit ? esc_html( $usage_limit ) : '&infin;'
@@ -174,7 +173,7 @@ class WC_Admin_List_Table_Coupons extends WC_Admin_List_Table {
 	}
 
 	/**
-	 * Render columm: expiry_date.
+	 * Render column: expiry_date.
 	 */
 	protected function render_expiry_date_column() {
 		$expiry_date = $this->object->get_date_expires();
@@ -187,7 +186,7 @@ class WC_Admin_List_Table_Coupons extends WC_Admin_List_Table {
 	}
 
 	/**
-	 * Render columm: description.
+	 * Render column: description.
 	 */
 	protected function render_description_column() {
 		echo wp_kses_post( $this->object->get_description() ? $this->object->get_description() : '&ndash;' );
@@ -225,10 +224,8 @@ class WC_Admin_List_Table_Coupons extends WC_Admin_List_Table {
 	 */
 	protected function query_filters( $query_vars ) {
 		if ( ! empty( $_GET['coupon_type'] ) ) { // WPCS: input var ok, sanitization ok.
-			// @codingStandardsIgnoreStart
-			$query_vars['meta_key']   = 'discount_type';
-			$query_vars['meta_value'] = wc_clean( wp_unslash( $_GET['coupon_type'] ) ); // WPCS: input var ok, sanitization ok.
-			// @codingStandardsIgnoreEnd
+			$query_vars['meta_key']   = 'discount_type'; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+			$query_vars['meta_value'] = wc_clean( wp_unslash( $_GET['coupon_type'] ) ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value, WordPress.VIP.SuperGlobalInputUsage.AccessDetected
 		}
 		return $query_vars;
 	}

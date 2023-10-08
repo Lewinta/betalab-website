@@ -3,8 +3,10 @@
  * Twenty Seventeen support.
  *
  * @since   2.6.9
- * @package WooCommerce/Classes
+ * @package WooCommerce\Classes
  */
+
+use Automattic\Jetpack\Constants;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -28,10 +30,13 @@ class WC_Twenty_Seventeen {
 		add_theme_support( 'wc-product-gallery-zoom' );
 		add_theme_support( 'wc-product-gallery-lightbox' );
 		add_theme_support( 'wc-product-gallery-slider' );
-		add_theme_support( 'woocommerce', array(
-			'thumbnail_image_width' => 250,
-			'single_image_width'    => 350,
-		) );
+		add_theme_support(
+			'woocommerce',
+			array(
+				'thumbnail_image_width' => 250,
+				'single_image_width'    => 350,
+			)
+		);
 	}
 
 	/**
@@ -43,11 +48,12 @@ class WC_Twenty_Seventeen {
 	public static function enqueue_styles( $styles ) {
 		unset( $styles['woocommerce-general'] );
 
-		$styles['woocommerce-twenty-seventeen'] = array(
+		$styles['woocommerce-general'] = array(
 			'src'     => str_replace( array( 'http:', 'https:' ), '', WC()->plugin_url() ) . '/assets/css/twenty-seventeen.css',
 			'deps'    => '',
-			'version' => WC_VERSION,
+			'version' => Constants::get_constant( 'WC_VERSION' ),
 			'media'   => 'all',
+			'has_rtl' => true,
 		);
 
 		return apply_filters( 'woocommerce_twenty_seventeen_styles', $styles );

@@ -3,9 +3,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
-VcShortcodeAutoloader::getInstance()->includeClass( 'WPBakeryShortCode_VC_Tta_Accordion' );
+VcShortcodeAutoloader::getInstance()->includeClass( 'WPBakeryShortCode_Vc_Tta_Accordion' );
 
-class WPBakeryShortCode_VC_Tta_Tabs extends WPBakeryShortCode_VC_Tta_Accordion {
+/**
+ * Class WPBakeryShortCode_Vc_Tta_Tabs
+ */
+class WPBakeryShortCode_Vc_Tta_Tabs extends WPBakeryShortCode_Vc_Tta_Accordion {
 
 	public $layout = 'tabs';
 
@@ -15,24 +18,31 @@ class WPBakeryShortCode_VC_Tta_Tabs extends WPBakeryShortCode_VC_Tta_Accordion {
 		wp_enqueue_script( 'vc_tabs_script' );
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getWrapperAttributes() {
 		$attributes = array();
 		$attributes[] = 'class="' . esc_attr( $this->getTtaContainerClasses() ) . '"';
 		$attributes[] = 'data-vc-action="collapse"';
 
-		$autoplay = $this->atts['autoplay'];
-		if ( $autoplay && 'none' !== $autoplay && intval( $autoplay ) > 0 ) {
-			$attributes[] = 'data-vc-tta-autoplay="' . esc_attr( json_encode( array(
+		if ( isset( $this->atts['autoplay'] ) ) {
+			$autoplay = $this->atts['autoplay'];
+			if ( $autoplay && 'none' !== $autoplay && intval( $autoplay ) > 0 ) {
+				$attributes[] = 'data-vc-tta-autoplay="' . esc_attr( wp_json_encode( array(
 					'delay' => intval( $autoplay ) * 1000,
 				) ) ) . '"';
+			}
 		}
 		if ( ! empty( $this->atts['el_id'] ) ) {
 			$attributes[] = 'id="' . esc_attr( $this->atts['el_id'] ) . '"';
 		}
-
 		return implode( ' ', $attributes );
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getTtaGeneralClasses() {
 		$classes = parent::getTtaGeneralClasses();
 
@@ -128,7 +138,7 @@ class WPBakeryShortCode_VC_Tta_Tabs extends WPBakeryShortCode_VC_Tta_Accordion {
 	 *
 	 * @return string
 	 */
-	function constructIcon( $atts ) {
+	public function constructIcon( $atts ) {
 		vc_icon_element_fonts_enqueue( $atts['i_type'] );
 
 		$class = 'vc_tta-icon';
@@ -156,13 +166,13 @@ class WPBakeryShortCode_VC_Tta_Tabs extends WPBakeryShortCode_VC_Tta_Accordion {
 		if ( ! $isPageEditabe ) {
 			$active_section = $this->getActiveSection( $atts, false );
 
-			foreach ( WPBakeryShortCode_VC_Tta_Section::$section_info as $nth => $section ) {
+			foreach ( WPBakeryShortCode_Vc_Tta_Section::$section_info as $nth => $section ) {
 				$classes = array( 'vc_tta-tab' );
 				if ( ( $nth + 1 ) === $active_section ) {
 					$classes[] = $this->activeClass;
 				}
 
-				$title = '<span class="vc_tta-title-text">' . $section['title'] . '</span>';
+				$title = '<span class="vc_tta-title-text">' . wp_kses_post( $section['title'] ) . '</span>';
 				if ( 'true' === $section['add_icon'] ) {
 					$icon_html = $this->constructIcon( $section );
 					if ( 'left' === $section['i_position'] ) {

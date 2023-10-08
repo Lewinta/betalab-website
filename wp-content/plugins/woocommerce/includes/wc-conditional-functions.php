@@ -4,11 +4,11 @@
  *
  * Functions for determining the current query/page.
  *
- * @author      WooThemes
- * @category    Core
- * @package     WooCommerce/Functions
+ * @package     WooCommerce\Functions
  * @version     2.3.0
  */
+
+use Automattic\Jetpack\Constants;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return bool
  */
 function is_woocommerce() {
-	return apply_filters( 'is_woocommerce', ( is_shop() || is_product_taxonomy() || is_product() ) ? true : false );
+	return apply_filters( 'is_woocommerce', is_shop() || is_product_taxonomy() || is_product() );
 }
 
 if ( ! function_exists( 'is_shop' ) ) {
@@ -93,7 +93,9 @@ if ( ! function_exists( 'is_cart' ) ) {
 	 * @return bool
 	 */
 	function is_cart() {
-		return is_page( wc_get_page_id( 'cart' ) ) || defined( 'WOOCOMMERCE_CART' ) || wc_post_content_has_shortcode( 'woocommerce_cart' );
+		$page_id = wc_get_page_id( 'cart' );
+
+		return ( $page_id && is_page( $page_id ) ) || Constants::is_defined( 'WOOCOMMERCE_CART' ) || wc_post_content_has_shortcode( 'woocommerce_cart' );
 	}
 }
 
@@ -105,7 +107,9 @@ if ( ! function_exists( 'is_checkout' ) ) {
 	 * @return bool
 	 */
 	function is_checkout() {
-		return is_page( wc_get_page_id( 'checkout' ) ) || wc_post_content_has_shortcode( 'woocommerce_checkout' ) || apply_filters( 'woocommerce_is_checkout', false ) || defined( 'WOOCOMMERCE_CHECKOUT' );
+		$page_id = wc_get_page_id( 'checkout' );
+
+		return ( $page_id && is_page( $page_id ) ) || wc_post_content_has_shortcode( 'woocommerce_checkout' ) || apply_filters( 'woocommerce_is_checkout', false ) || Constants::is_defined( 'WOOCOMMERCE_CHECKOUT' );
 	}
 }
 
@@ -128,7 +132,7 @@ if ( ! function_exists( 'is_wc_endpoint_url' ) ) {
 	/**
 	 * Is_wc_endpoint_url - Check if an endpoint is showing.
 	 *
-	 * @param string $endpoint Whether endpoint.
+	 * @param string|false $endpoint Whether endpoint.
 	 * @return bool
 	 */
 	function is_wc_endpoint_url( $endpoint = false ) {
@@ -164,7 +168,9 @@ if ( ! function_exists( 'is_account_page' ) ) {
 	 * @return bool
 	 */
 	function is_account_page() {
-		return is_page( wc_get_page_id( 'myaccount' ) ) || wc_post_content_has_shortcode( 'woocommerce_my_account' ) || apply_filters( 'woocommerce_is_account_page', false );
+		$page_id = wc_get_page_id( 'myaccount' );
+
+		return ( $page_id && is_page( $page_id ) ) || wc_post_content_has_shortcode( 'woocommerce_my_account' ) || apply_filters( 'woocommerce_is_account_page', false );
 	}
 }
 
@@ -178,7 +184,9 @@ if ( ! function_exists( 'is_view_order_page' ) ) {
 	function is_view_order_page() {
 		global $wp;
 
-		return ( is_page( wc_get_page_id( 'myaccount' ) ) && isset( $wp->query_vars['view-order'] ) );
+		$page_id = wc_get_page_id( 'myaccount' );
+
+		return ( $page_id && is_page( $page_id ) && isset( $wp->query_vars['view-order'] ) );
 	}
 }
 
@@ -194,7 +202,9 @@ if ( ! function_exists( 'is_edit_account_page' ) ) {
 	function is_edit_account_page() {
 		global $wp;
 
-		return ( is_page( wc_get_page_id( 'myaccount' ) ) && isset( $wp->query_vars['edit-account'] ) );
+		$page_id = wc_get_page_id( 'myaccount' );
+
+		return ( $page_id && is_page( $page_id ) && isset( $wp->query_vars['edit-account'] ) );
 	}
 }
 
@@ -208,7 +218,9 @@ if ( ! function_exists( 'is_order_received_page' ) ) {
 	function is_order_received_page() {
 		global $wp;
 
-		return apply_filters( 'woocommerce_is_order_received_page', ( is_page( wc_get_page_id( 'checkout' ) ) && isset( $wp->query_vars['order-received'] ) ) );
+		$page_id = wc_get_page_id( 'checkout' );
+
+		return apply_filters( 'woocommerce_is_order_received_page', ( $page_id && is_page( $page_id ) && isset( $wp->query_vars['order-received'] ) ) );
 	}
 }
 
@@ -222,7 +234,9 @@ if ( ! function_exists( 'is_add_payment_method_page' ) ) {
 	function is_add_payment_method_page() {
 		global $wp;
 
-		return ( is_page( wc_get_page_id( 'myaccount' ) ) && ( isset( $wp->query_vars['payment-methods'] ) || isset( $wp->query_vars['add-payment-method'] ) ) );
+		$page_id = wc_get_page_id( 'myaccount' );
+
+		return ( $page_id && is_page( $page_id ) && ( isset( $wp->query_vars['payment-methods'] ) || isset( $wp->query_vars['add-payment-method'] ) ) );
 	}
 }
 
@@ -236,7 +250,9 @@ if ( ! function_exists( 'is_lost_password_page' ) ) {
 	function is_lost_password_page() {
 		global $wp;
 
-		return ( is_page( wc_get_page_id( 'myaccount' ) ) && isset( $wp->query_vars['lost-password'] ) );
+		$page_id = wc_get_page_id( 'myaccount' );
+
+		return ( $page_id && is_page( $page_id ) && isset( $wp->query_vars['lost-password'] ) );
 	}
 }
 
@@ -245,10 +261,11 @@ if ( ! function_exists( 'is_ajax' ) ) {
 	/**
 	 * Is_ajax - Returns true when the page is loaded via ajax.
 	 *
+	 * @see wp_doing_ajax() for an equivalent function provided by WordPress since 4.7.0
 	 * @return bool
 	 */
 	function is_ajax() {
-		return defined( 'DOING_AJAX' );
+		return function_exists( 'wp_doing_ajax' ) ? wp_doing_ajax() : Constants::is_defined( 'DOING_AJAX' );
 	}
 }
 
@@ -272,7 +289,7 @@ if ( ! function_exists( 'is_filtered' ) ) {
 	 * @return bool
 	 */
 	function is_filtered() {
-		return apply_filters( 'woocommerce_is_filtered', ( count( WC_Query::get_layered_nav_chosen_attributes() ) > 0 || isset( $_GET['max_price'] ) || isset( $_GET['min_price'] ) || isset( $_GET['rating_filter'] ) ) );
+		return apply_filters( 'woocommerce_is_filtered', ( count( WC_Query::get_layered_nav_chosen_attributes() ) > 0 || isset( $_GET['max_price'] ) || isset( $_GET['min_price'] ) || isset( $_GET['rating_filter'] ) ) ); // WPCS: CSRF ok.
 	}
 }
 
@@ -308,7 +325,7 @@ if ( ! function_exists( 'meta_is_product_attribute' ) ) {
 		if ( $product && method_exists( $product, 'get_variation_attributes' ) ) {
 			$variation_attributes = $product->get_variation_attributes();
 			$attributes           = $product->get_attributes();
-			return ( in_array( $name, array_keys( $attributes ) ) && in_array( $value, $variation_attributes[ $attributes[ $name ]['name'] ] ) );
+			return ( in_array( $name, array_keys( $attributes ), true ) && in_array( $value, $variation_attributes[ $attributes[ $name ]['name'] ], true ) );
 		} else {
 			return false;
 		}
@@ -347,7 +364,7 @@ if ( ! function_exists( 'wc_prices_include_tax' ) ) {
 	 * @return bool
 	 */
 	function wc_prices_include_tax() {
-		return wc_tax_enabled() && 'yes' === get_option( 'woocommerce_prices_include_tax' );
+		return wc_tax_enabled() && apply_filters( 'woocommerce_prices_include_tax', get_option( 'woocommerce_prices_include_tax' ) === 'yes' );
 	}
 }
 
@@ -403,4 +420,157 @@ function wc_post_content_has_shortcode( $tag = '' ) {
 	global $post;
 
 	return is_singular() && is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, $tag );
+}
+
+/**
+ * Check if reviews are enabled.
+ *
+ * @since 3.6.0
+ * @return bool
+ */
+function wc_reviews_enabled() {
+	return 'yes' === get_option( 'woocommerce_enable_reviews' );
+}
+
+/**
+ * Check if reviews ratings are enabled.
+ *
+ * @since 3.6.0
+ * @return bool
+ */
+function wc_review_ratings_enabled() {
+	return wc_reviews_enabled() && 'yes' === get_option( 'woocommerce_enable_review_rating' );
+}
+
+/**
+ * Check if review ratings are required.
+ *
+ * @since 3.6.0
+ * @return bool
+ */
+function wc_review_ratings_required() {
+	return 'yes' === get_option( 'woocommerce_review_rating_required' );
+}
+
+/**
+ * Check if a CSV file is valid.
+ *
+ * @since 3.6.5
+ * @param string $file       File name.
+ * @param bool   $check_path If should check for the path.
+ * @return bool
+ */
+function wc_is_file_valid_csv( $file, $check_path = true ) {
+	/**
+	 * Filter check for CSV file path.
+	 *
+	 * @since 3.6.4
+	 * @param bool   $check_import_file_path If requires file path check. Defaults to true.
+	 * @param string $file                   Path of the file to be checked.
+	 */
+	$check_import_file_path = apply_filters( 'woocommerce_csv_importer_check_import_file_path', true, $file );
+
+	if ( $check_path && $check_import_file_path && false !== stripos( $file, '://' ) ) {
+		return false;
+	}
+
+	/**
+	 * Filter CSV valid file types.
+	 *
+	 * @since 3.6.5
+	 * @param array $valid_filetypes List of valid file types.
+	 */
+	$valid_filetypes = apply_filters(
+		'woocommerce_csv_import_valid_filetypes',
+		array(
+			'csv' => 'text/csv',
+			'txt' => 'text/plain',
+		)
+	);
+
+	$filetype = wp_check_filetype( $file, $valid_filetypes );
+
+	if ( in_array( $filetype['type'], $valid_filetypes, true ) ) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Check if the current theme is a block theme.
+ *
+ * @since 6.0.0
+ * @return bool
+ */
+function wc_current_theme_is_fse_theme() {
+	if ( function_exists( 'wp_is_block_theme' ) ) {
+		return (bool) wp_is_block_theme();
+	}
+	if ( function_exists( 'gutenberg_is_fse_theme' ) ) {
+		return (bool) gutenberg_is_fse_theme();
+	}
+
+	return false;
+}
+
+/**
+ * Check if the current theme has WooCommerce support or is a FSE theme.
+ *
+ * @since 6.0.0
+ * @return bool
+ */
+function wc_current_theme_supports_woocommerce_or_fse() {
+	return (bool) current_theme_supports( 'woocommerce' ) || wc_current_theme_is_fse_theme();
+}
+
+/**
+ * Given an element name, returns a class name.
+ *
+ * If the WP-related function is not defined or current theme is not a FSE theme, return empty string.
+ *
+ * @param string $element The name of the element.
+ *
+ * @since 7.0.1
+ * @return string
+ */
+function wc_wp_theme_get_element_class_name( $element ) {
+	if ( wc_current_theme_is_fse_theme() && function_exists( 'wp_theme_get_element_class_name' ) ) {
+		return wp_theme_get_element_class_name( $element );
+	}
+
+	return '';
+}
+
+/**
+ * Given an element name, returns true or false depending on whether the
+ * current theme has styles for that element defined in theme.json.
+ *
+ * If the theme is not a block theme or the WP-related function is not defined,
+ * return false.
+ *
+ * @param string $element The name of the element.
+ *
+ * @since 7.4.0
+ * @return bool
+ */
+function wc_block_theme_has_styles_for_element( $element ) {
+	if (
+		! wc_current_theme_is_fse_theme() ||
+		wc_wp_theme_get_element_class_name( $element ) === ''
+	) {
+		return false;
+	}
+
+	if ( function_exists( 'wp_get_global_styles' ) ) {
+		$global_styles = wp_get_global_styles();
+		if (
+			array_key_exists( 'elements', $global_styles ) &&
+			array_key_exists( $element, $global_styles['elements'] )
+		) {
+			return is_array( $global_styles['elements'][ $element ] );
+		}
+	}
+
+	return false;
 }

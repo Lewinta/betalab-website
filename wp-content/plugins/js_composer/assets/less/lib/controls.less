@@ -10,6 +10,7 @@
     white-space: nowrap;
     font-size: 0 !important; //remove bottom extra space from display: inline-block
     > .vc_parent {
+      vertical-align: top;
       display: inline-block;
     }
     > .vc_element {
@@ -243,6 +244,7 @@
   line-height: 1px !important;
   font-size: 1px !important;
   vertical-align: middle !important;
+  box-sizing: border-box;
 }
 
 .vc_element-name {
@@ -254,6 +256,7 @@
     line-height: 16px !important;
     padding: 7px 12px !important;
     cursor: auto !important;
+    // height: 30px;
     &:hover {
       text-decoration: none !important;
     }
@@ -315,8 +318,9 @@
 
 
 .vc_control-btn-switcher {
-  overflow-x: hidden;
+  overflow: hidden;
   width: 24px;
+  height: 30px;
   .transition(width 0.5s);
   display: inline-block;
   &-disable-switcher {
@@ -459,6 +463,17 @@
         }
       }
     }
+  }
+}
+
+// Toggle container element has custom controls set
+// It requires a custom width
+.vc_vc_tta_toggle_section {
+  .vc_controls-container > div > .vc_active.vc_parent .vc_advanced {
+    width: 90px;
+  }
+  .vc_controls-container > div > .vc_active.vc_element .vc_advanced {
+    width: 60px;
   }
 }
 

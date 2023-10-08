@@ -2,19 +2,23 @@
 /**
  * Manages WooCommerce plugin updating on the Updates screen.
  *
- * @author      Automattic
- * @category    Admin
- * @package     WooCommerce/Admin
+ * @package     WooCommerce\Admin
  * @version     3.2.0
  */
+
+use Automattic\Jetpack\Constants;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 if ( ! class_exists( 'WC_Plugin_Updates' ) ) {
-	include_once( dirname( __FILE__ ) . '/class-wc-plugin-updates.php' );
+	include_once dirname( __FILE__ ) . '/class-wc-plugin-updates.php';
 }
 
+/**
+ * Class WC_Updates_Screen_Updates
+ */
 class WC_Updates_Screen_Updates extends WC_Plugin_Updates {
 
 	/**
@@ -35,11 +39,16 @@ class WC_Updates_Screen_Updates extends WC_Plugin_Updates {
 			return;
 		}
 
+		$version_type = Constants::get_constant( 'WC_SSR_PLUGIN_UPDATE_RELEASE_VERSION_TYPE' );
+		if ( ! is_string( $version_type ) ) {
+			$version_type = 'none';
+		}
+
 		$this->new_version            = wc_clean( $updateable_plugins['woocommerce/woocommerce.php']->update->new_version );
-		$this->major_untested_plugins = $this->get_untested_plugins( $this->new_version, 'major' );
+		$this->major_untested_plugins = $this->get_untested_plugins( $this->new_version, $version_type );
 
 		if ( ! empty( $this->major_untested_plugins ) ) {
-			echo $this->get_extensions_modal_warning();
+			echo $this->get_extensions_modal_warning(); // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
 			$this->update_screen_modal_js();
 		}
 	}
@@ -60,7 +69,7 @@ class WC_Updates_Screen_Updates extends WC_Plugin_Updates {
 					}
 					var $checkbox = $( 'input[value="woocommerce/woocommerce.php"]' );
 					if ( $checkbox.prop( 'checked' ) ) {
-						$( '#wc-upgrade-warning' ).click();
+						$( '#wc-upgrade-warning' ).trigger( 'click' );
 					}
 				}
 

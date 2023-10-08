@@ -2,14 +2,14 @@
 /**
  * Admin View: Importer - CSV mapping
  *
- * @package WooCommerce/Admin
+ * @package WooCommerce\Admin\Importers
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<form class="wc-progress-form-content woocommerce-importer" method="post" action="<?php echo esc_url( $this->get_next_step_link() ) ?>">
+<form class="wc-progress-form-content woocommerce-importer" method="post" action="<?php echo esc_url( $this->get_next_step_link() ); ?>">
 	<header>
 		<h2><?php esc_html_e( 'Map CSV fields to products', 'woocommerce' ); ?></h2>
 		<p><?php esc_html_e( 'Select fields from your CSV file to map against products fields, or to ignore during import.', 'woocommerce' ); ?></p>
@@ -60,6 +60,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<input type="hidden" name="file" value="<?php echo esc_attr( $this->file ); ?>" />
 		<input type="hidden" name="delimiter" value="<?php echo esc_attr( $this->delimiter ); ?>" />
 		<input type="hidden" name="update_existing" value="<?php echo (int) $this->update_existing; ?>" />
+		<?php if ( $args['character_encoding'] ) { ?>
+			<input type="hidden" name="character_encoding" value="<?php echo esc_html( $args['character_encoding'] ); ?>" />
+		<?php } ?>
 		<?php wp_nonce_field( 'woocommerce-csv-importer' ); ?>
 	</div>
 </form>

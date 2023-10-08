@@ -2,22 +2,25 @@
 /**
  * Attributes Page
  *
- * The attributes section lets users add custom attributes to assign to products - they can also be used in the layered nav widget.
+ * The attributes section lets users add custom attributes to assign to products - they can also be used in the "Filter Products by Attribute" widget.
  *
- * @author      WooThemes
- * @category    Admin
- * @package     WooCommerce/Admin
- * @version     2.3.0
+ * @package WooCommerce\Admin
+ * @version 2.3.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * WC_Admin_Attributes Class.
  */
 class WC_Admin_Attributes {
+
+	/**
+	 * Edited attribute ID.
+	 *
+	 * @var int
+	 */
+	private static $edited_attribute_id;
 
 	/**
 	 * Handles output of the attributes page in admin.
@@ -30,24 +33,24 @@ class WC_Admin_Attributes {
 		$action = '';
 
 		// Action to perform: add, edit, delete or none.
-		if ( ! empty( $_POST['add_new_attribute'] ) ) {
+		if ( ! empty( $_POST['add_new_attribute'] ) ) { // WPCS: CSRF ok.
 			$action = 'add';
-		} elseif ( ! empty( $_POST['save_attribute'] ) && ! empty( $_GET['edit'] ) ) {
+		} elseif ( ! empty( $_POST['save_attribute'] ) && ! empty( $_GET['edit'] ) ) { // WPCS: CSRF ok.
 			$action = 'edit';
 		} elseif ( ! empty( $_GET['delete'] ) ) {
 			$action = 'delete';
 		}
 
 		switch ( $action ) {
-			case 'add' :
+			case 'add':
 				$result = self::process_add_attribute();
-			break;
-			case 'edit' :
+				break;
+			case 'edit':
 				$result = self::process_edit_attribute();
-			break;
-			case 'delete' :
+				break;
+			case 'delete':
 				$result = self::process_delete_attribute();
-			break;
+				break;
 		}
 
 		if ( is_wp_error( $result ) ) {
@@ -69,11 +72,11 @@ class WC_Admin_Attributes {
 	 */
 	private static function get_posted_attribute() {
 		$attribute = array(
-			'attribute_label'   => isset( $_POST['attribute_label'] )   ? wc_clean( stripslashes( $_POST['attribute_label'] ) ) : '',
-			'attribute_name'    => isset( $_POST['attribute_name'] )    ? wc_sanitize_taxonomy_name( stripslashes( $_POST['attribute_name'] ) ) : '',
-			'attribute_type'    => isset( $_POST['attribute_type'] )    ? wc_clean( $_POST['attribute_type'] ) : 'select',
-			'attribute_orderby' => isset( $_POST['attribute_orderby'] ) ? wc_clean( $_POST['attribute_orderby'] ) : '',
-			'attribute_public'  => isset( $_POST['attribute_public'] )  ? 1 : 0,
+			'attribute_label'   => isset( $_POST['attribute_label'] ) ? wc_clean( wp_unslash( $_POST['attribute_label'] ) ) : '', // WPCS: input var ok, CSRF ok.
+			'attribute_name'    => isset( $_POST['attribute_name'] ) ? wc_sanitize_taxonomy_name( wp_unslash( $_POST['attribute_name'] ) ) : '', // WPCS: input var ok, CSRF ok, sanitization ok.
+			'attribute_type'    => isset( $_POST['attribute_type'] ) ? wc_clean( wp_unslash( $_POST['attribute_type'] ) ) : 'select', // WPCS: input var ok, CSRF ok.
+			'attribute_orderby' => isset( $_POST['attribute_orderby'] ) ? wc_clean( wp_unslash( $_POST['attribute_orderby'] ) ) : '', // WPCS: input var ok, CSRF ok.
+			'attribute_public'  => isset( $_POST['attribute_public'] ) ? 1 : 0, // WPCS: input var ok, CSRF ok.
 		);
 
 		if ( empty( $attribute['attribute_type'] ) ) {
@@ -121,7 +124,7 @@ class WC_Admin_Attributes {
 	 * @return bool|WP_Error
 	 */
 	private static function process_edit_attribute() {
-		$attribute_id = absint( $_GET['edit'] );
+		$attribute_id = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0;
 		check_admin_referer( 'woocommerce-save-attribute_' . $attribute_id );
 
 		$attribute = self::get_posted_attribute();
@@ -139,7 +142,7 @@ class WC_Admin_Attributes {
 			return $id;
 		}
 
-		echo '<div class="updated"><p>' . __( 'Attribute updated successfully', 'woocommerce' ) . '</p><p><a href="' . esc_url( admin_url( 'edit.php?post_type=product&amp;page=product_attributes' ) ) . '">' . __( 'Back to Attributes', 'woocommerce' ) . '</a></p></div>';
+		self::$edited_attribute_id = $id;
 
 		return true;
 	}
@@ -150,7 +153,7 @@ class WC_Admin_Attributes {
 	 * @return bool
 	 */
 	private static function process_delete_attribute() {
-		$attribute_id = absint( $_GET['delete'] );
+		$attribute_id = isset( $_GET['delete'] ) ? absint( $_GET['delete'] ) : 0;
 		check_admin_referer( 'woocommerce-delete-attribute_' . $attribute_id );
 
 		return wc_delete_attribute( $attribute_id );
@@ -164,20 +167,32 @@ class WC_Admin_Attributes {
 	public static function edit_attribute() {
 		global $wpdb;
 
-		$edit = absint( $_GET['edit'] );
+		$edit = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0;
 
-		$attribute_to_edit = $wpdb->get_row( "SELECT attribute_type, attribute_label, attribute_name, attribute_orderby, attribute_public FROM " . $wpdb->prefix . "woocommerce_attribute_taxonomies WHERE attribute_id = '$edit'" );
+		$attribute_to_edit = $wpdb->get_row(
+			$wpdb->prepare(
+				"
+				SELECT attribute_type, attribute_label, attribute_name, attribute_orderby, attribute_public
+				FROM {$wpdb->prefix}woocommerce_attribute_taxonomies WHERE attribute_id = %d
+				",
+				$edit
+			)
+		);
 
 		?>
 		<div class="wrap woocommerce">
-			<h1><?php esc_html_e( 'Edit attribute', 'woocommerce' ) ?></h1>
+			<h1><?php esc_html_e( 'Edit attribute', 'woocommerce' ); ?></h1>
 
 			<?php
 			if ( ! $attribute_to_edit ) {
 				echo '<div id="woocommerce_errors" class="error"><p>' . esc_html__( 'Error: non-existing attribute ID.', 'woocommerce' ) . '</p></div>';
 			} else {
+				if ( self::$edited_attribute_id > 0 ) {
+					echo '<div id="message" class="updated"><p>' . esc_html__( 'Attribute updated successfully', 'woocommerce' ) . '</p><p><a href="' . esc_url( admin_url( 'edit.php?post_type=product&amp;page=product_attributes' ) ) . '">' . esc_html__( 'Back to Attributes', 'woocommerce' ) . '</a></p></div>';
+					self::$edited_attribute_id = null;
+				}
 				$att_type    = $attribute_to_edit->attribute_type;
-				$att_label   = $attribute_to_edit->attribute_label;
+				$att_label   = format_to_edit( $attribute_to_edit->attribute_label );
 				$att_name    = $attribute_to_edit->attribute_name;
 				$att_orderby = $attribute_to_edit->attribute_orderby;
 				$att_public  = $attribute_to_edit->attribute_public;
@@ -230,7 +245,7 @@ class WC_Admin_Attributes {
 									<td>
 										<select name="attribute_type" id="attribute_type">
 											<?php foreach ( wc_get_attribute_types() as $key => $value ) : ?>
-												<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $att_type, $key ); ?>><?php echo esc_attr( $value ); ?></option>
+												<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $att_type, $key ); ?>><?php echo esc_html( $value ); ?></option>
 											<?php endforeach; ?>
 											<?php
 												/**
@@ -262,7 +277,7 @@ class WC_Admin_Attributes {
 									<p class="description"><?php esc_html_e( 'Determines the sort order of the terms on the frontend shop product pages. If using custom ordering, you can drag and drop the terms in this attribute.', 'woocommerce' ); ?></p>
 								</td>
 							</tr>
-							<?php do_action( 'woocommerce_after_edit_attribute_fields' ) ?>
+							<?php do_action( 'woocommerce_after_edit_attribute_fields' ); ?>
 						</tbody>
 					</table>
 					<p class="submit"><button type="submit" name="save_attribute" id="submit" class="button-primary" value="<?php esc_attr_e( 'Update', 'woocommerce' ); ?>"><?php esc_html_e( 'Update', 'woocommerce' ); ?></button></p>
@@ -301,11 +316,22 @@ class WC_Admin_Attributes {
 							</thead>
 							<tbody>
 								<?php
-								if ( $attribute_taxonomies = wc_get_attribute_taxonomies() ) :
+								$attribute_taxonomies = wc_get_attribute_taxonomies();
+								if ( $attribute_taxonomies ) {
+									/**
+									 * Filters the maximum number of terms that will be displayed for each taxonomy in the Attributes page.
+									 *
+									 * @param int @default_max_terms_to_display Default value.
+									 * @returns int Actual value to use, may be zero.
+									 *
+									 * @since 6.9.0
+									 */
+									$max_terms_to_display = apply_filters( 'woocommerce_max_terms_displayed_in_attributes_page', 100 );
 									foreach ( $attribute_taxonomies as $tax ) :
-										?><tr>
+										?>
+										<tr>
 												<td>
-													<strong><a href="edit-tags.php?taxonomy=<?php echo esc_html( wc_attribute_taxonomy_name( $tax->attribute_name ) ); ?>&amp;post_type=product"><?php echo esc_html( $tax->attribute_label ); ?></a></strong>
+													<strong><a href="edit-tags.php?taxonomy=<?php echo esc_attr( wc_attribute_taxonomy_name( $tax->attribute_name ) ); ?>&amp;post_type=product"><?php echo esc_html( $tax->attribute_label ); ?></a></strong>
 
 													<div class="row-actions"><span class="edit"><a href="<?php echo esc_url( add_query_arg( 'edit', $tax->attribute_id, 'edit.php?post_type=product&amp;page=product_attributes' ) ); ?>"><?php esc_html_e( 'Edit', 'woocommerce' ); ?></a> | </span><span class="delete"><a class="delete" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'delete', $tax->attribute_id, 'edit.php?post_type=product&amp;page=product_attributes' ), 'woocommerce-delete-attribute_' . $tax->attribute_id ) ); ?>"><?php esc_html_e( 'Delete', 'woocommerce' ); ?></a></span></div>
 												</td>
@@ -313,61 +339,76 @@ class WC_Admin_Attributes {
 												<?php if ( wc_has_custom_attribute_types() ) : ?>
 													<td><?php echo esc_html( wc_get_attribute_type_label( $tax->attribute_type ) ); ?> <?php echo $tax->attribute_public ? esc_html__( '(Public)', 'woocommerce' ) : ''; ?></td>
 												<?php endif; ?>
-												<td><?php
-												switch ( $tax->attribute_orderby ) {
-													case 'name' :
-														esc_html_e( 'Name', 'woocommerce' );
-													break;
-													case 'name_num' :
-														esc_html_e( 'Name (numeric)', 'woocommerce' );
-													break;
-													case 'id' :
-														esc_html_e( 'Term ID', 'woocommerce' );
-													break;
-													default:
-														esc_html_e( 'Custom ordering', 'woocommerce' );
-													break;
-												}
-												?>
+												<td>
+													<?php
+													switch ( $tax->attribute_orderby ) {
+														case 'name':
+															esc_html_e( 'Name', 'woocommerce' );
+															break;
+														case 'name_num':
+															esc_html_e( 'Name (numeric)', 'woocommerce' );
+															break;
+														case 'id':
+															esc_html_e( 'Term ID', 'woocommerce' );
+															break;
+														default:
+															esc_html_e( 'Custom ordering', 'woocommerce' );
+															break;
+													}
+													?>
 												</td>
 												<td class="attribute-terms">
-												<?php
-												$taxonomy = wc_attribute_taxonomy_name( $tax->attribute_name );
+													<?php
+													$taxonomy = wc_attribute_taxonomy_name( $tax->attribute_name );
 
-												if ( taxonomy_exists( $taxonomy ) ) {
-													if ( 'menu_order' === wc_attribute_orderby( $taxonomy ) ) {
-														$terms = get_terms( $taxonomy, 'hide_empty=0&menu_order=ASC' );
+													if ( taxonomy_exists( $taxonomy ) ) {
+														$total_count = (int) get_terms(
+															array(
+																'taxonomy'   => $taxonomy,
+																'fields'     => 'count',
+																'hide_empty' => false,
+															)
+														);
+														if ( 0 === $total_count ) {
+															echo '<span class="na">&ndash;</span>';
+														} elseif ( $max_terms_to_display > 0 ) {
+															$terms        = get_terms(
+																array(
+																	'taxonomy'   => $taxonomy,
+																	'number'     => $max_terms_to_display,
+																	'fields'     => 'names',
+																	'hide_empty' => false,
+																)
+															);
+															$terms_string = implode( ', ', $terms );
+															if ( $total_count > $max_terms_to_display ) {
+																$remaining = $total_count - $max_terms_to_display;
+																/* translators: 1: Comma-separated terms list, 2: how many terms are hidden */
+																$terms_string = sprintf( __( '%1$s... (%2$s more)', 'woocommerce' ), $terms_string, $remaining );
+															}
+															echo esc_html( $terms_string );
+														} elseif ( 1 === $total_count ) {
+															echo esc_html( __( '1 term', 'woocommerce' ) );
+														} else {
+															/* translators: %s: Total count of terms available for the attribute */
+															echo esc_html( sprintf( __( '%s terms', 'woocommerce' ), $total_count ) );
+														}
 													} else {
-														$terms = get_terms( $taxonomy, 'hide_empty=0&menu_order=false' );
+															echo '<span class="na">&ndash;</span><br />';
 													}
-
-													switch ( $tax->attribute_orderby ) {
-														case 'name_num' :
-															usort( $terms, '_wc_get_product_terms_name_num_usort_callback' );
-														break;
-														case 'parent' :
-															usort( $terms, '_wc_get_product_terms_parent_usort_callback' );
-														break;
-													}
-
-													$terms_string = implode( ', ', wp_list_pluck( $terms, 'name' ) );
-													if ( $terms_string ) {
-														echo esc_html( $terms_string );
-													} else {
-														echo '<span class="na">&ndash;</span>';
-													}
-												} else {
-														echo '<span class="na">&ndash;</span>';
-												}
-												?>
-												<br /><a href="edit-tags.php?taxonomy=<?php echo esc_html( wc_attribute_taxonomy_name( $tax->attribute_name ) ); ?>&amp;post_type=product" class="configure-terms"><?php esc_html_e( 'Configure terms', 'woocommerce' ); ?></a>
+													?>
+													<br /><a href="edit-tags.php?taxonomy=<?php echo esc_attr( wc_attribute_taxonomy_name( $tax->attribute_name ) ); ?>&amp;post_type=product" class="configure-terms"><?php esc_html_e( 'Configure terms', 'woocommerce' ); ?></a>
 												</td>
 											</tr>
 											<?php
 										endforeach;
-									else :
-										?><tr><td colspan="6"><?php esc_html_e( 'No attributes currently exist.', 'woocommerce' ) ?></td></tr><?php
-									endif;
+								} else {
+									?>
+										<tr>
+											<td colspan="6"><?php esc_html_e( 'No attributes currently exist.', 'woocommerce' ); ?></td>
+										</tr>
+										<?php
+								}
 								?>
 							</tbody>
 						</table>
@@ -379,7 +420,7 @@ class WC_Admin_Attributes {
 							<h2><?php esc_html_e( 'Add new attribute', 'woocommerce' ); ?></h2>
 							<p><?php esc_html_e( 'Attributes let you define extra product data, such as size or color. You can use these attributes in the shop sidebar using the "layered nav" widgets.', 'woocommerce' ); ?></p>
 							<form action="edit.php?post_type=product&amp;page=product_attributes" method="post">
-								<?php do_action( 'woocommerce_before_add_attribute_fields' ) ?>
+								<?php do_action( 'woocommerce_before_add_attribute_fields' ); ?>
 
 								<div class="form-field">
 									<label for="attribute_label"><?php esc_html_e( 'Name', 'woocommerce' ); ?></label>
@@ -413,7 +454,7 @@ class WC_Admin_Attributes {
 										<label for="attribute_type"><?php esc_html_e( 'Type', 'woocommerce' ); ?></label>
 										<select name="attribute_type" id="attribute_type">
 											<?php foreach ( wc_get_attribute_types() as $key => $value ) : ?>
-												<option value="<?php echo esc_attr( $key ); ?>"><?php echo esc_attr( $value ); ?></option>
+												<option value="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $value ); ?></option>
 											<?php endforeach; ?>
 											<?php
 												/**
@@ -442,7 +483,7 @@ class WC_Admin_Attributes {
 									<p class="description"><?php esc_html_e( 'Determines the sort order of the terms on the frontend shop product pages. If using custom ordering, you can drag and drop the terms in this attribute.', 'woocommerce' ); ?></p>
 								</div>
 
-								<?php do_action( 'woocommerce_after_add_attribute_fields' ) ?>
+								<?php do_action( 'woocommerce_after_add_attribute_fields' ); ?>
 
 								<p class="submit"><button type="submit" name="add_new_attribute" id="submit" class="button button-primary" value="<?php esc_attr_e( 'Add attribute', 'woocommerce' ); ?>"><?php esc_html_e( 'Add attribute', 'woocommerce' ); ?></button></p>
 								<?php wp_nonce_field( 'woocommerce-add-new_attribute' ); ?>
@@ -454,7 +495,7 @@ class WC_Admin_Attributes {
 			<script type="text/javascript">
 			/* <![CDATA[ */
 
-				jQuery( 'a.delete' ).click( function() {
+				jQuery( 'a.delete' ).on( 'click', function() {
 					if ( window.confirm( '<?php esc_html_e( 'Are you sure you want to delete this attribute?', 'woocommerce' ); ?>' ) ) {
 						return true;
 					}
